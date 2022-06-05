@@ -1,0 +1,19 @@
+.FormContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.FormContent label {
+  text-align: left;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 15px;
+  transition: 0.2s;
+  min-height: 20px;
+}
+
+.FormContent input {
+  margin-bottom: 10px;
+  width: 60%;
+  border: 0.5px solid rgb(189, 189, 189);
+  height: 4vh;
+}

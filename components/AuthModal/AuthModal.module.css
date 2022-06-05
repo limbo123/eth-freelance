@@ -1,0 +1,55 @@
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 30px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #5c5c5cba;
+    z-index: 1;
+    color: #fff;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .Modal {
+    width: 40%;
+    height: fit-content;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px;
+    border-radius: 10px;
+    position: relative;
+    color: #000;
+    overflow: hidden;
+  }
+
+  .FormLogo {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    color: #10ab0b;
+    font-family: "Josefin Sans", sans-serif;
+    margin-bottom: 10px;
+  }
+
+  .FormNav {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 40px;
+    width: 100%;
+  }
+
+  .FormNav li {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .FormNav li:first-child {
+    margin-right: 15px;
+  }
