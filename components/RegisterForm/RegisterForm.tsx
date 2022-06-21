@@ -1,43 +1,122 @@
-import React, { FC, useRef, useState } from "react";
-import formStyles from "../../styles/FormContent.module.css";
-import useInputFocus from "../../hooks/useInputFocus";
+import React, { FC, useEffect, useRef, useState } from "react";
+
+import { IDeveloper, IEmployer } from "../../models/user";
+import web3 from "../../ethereum/web3";
+import countries from "../../countries.json";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { registerUser } from "../../redux/auth/authActions";
+import TypeChoosingStage from "./TypeChoosingStage/TypeChoosingStage";
+import MainStage from "./MainStage/MainStage";
+import axios from "axios";
+import SphereChoosing from "./SphereChoosing/SphereChoosing";
 
 const RegisterForm: FC = () => {
+  const [stage, setStage] = useState(0);
+  const [accountType, setAccountType] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
-  const emailInputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const passwordInputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const isEmailHover = useInputFocus(emailInputRef)
-  const isPasswordFocus = useInputFocus(passwordInputRef);
+  const [nicknameInput, setNicknameInput] = useState("");
+  const [aboutInput, setAboutInput] = useState("");
+  const [addressInput, setAddressInput] = useState("");
+  const [currentPhoto, setCurrentPhoto] = useState<File>({} as File);
+  const [countryInput, setCountryInput] = useState("");
+  const [sphereInput, setSphereInput] = useState("Choose your sphere");
+  const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    (async () => {
+      const accounts = await web3.eth.getAccounts();
+      setAddressInput(accounts[0]);
+      const ipRequest = await axios.get(
+        "https://ipinfo.io/json?token=c035a2c577d1cd"
+      );
+      const countryFullNameReq = countries[ipRequest.data.country];
+      setCountryInput(countryFullNameReq);
+    })();
+  }, []);
+
+  const goToNextStep = () => {
+    if (accountType === "") {
+      return;
+    }
+    setStage(stage + 1);
+  };
+
+  const changeImage = (e: React.SyntheticEvent) => {
+    const input = e.target as HTMLInputElement;
+    const files = input.files as FileList;
+    const imageUrl = URL.createObjectURL(files[0]);
+    setCurrentPhoto(files[0]);
+    const image = document.querySelector("#profileImage") as HTMLImageElement;
+    image.src = imageUrl;
+  };
+
+  const register = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (
+      emailInput &&
+      nicknameInput &&
+      addressInput &&
+      passwordInput &&
+      currentPhoto
+    ) {
+      const userObj: IDeveloper | IEmployer = {
+        address: addressInput,
+        completedTasks: [],
+        description: aboutInput,
+        email: emailInput,
+        password: passwordInput,
+        profilePhoto: currentPhoto,
+        rating: 0,
+        username: nicknameInput,
+        type: accountType,
+        sphere: sphereInput,
+      };
+      await dispatch(registerUser(userObj));
+      return;
+    }
+
+    const errorField = document.querySelector(
+      "#registerError"
+    ) as HTMLHeadingElement;
+    errorField.innerHTML =
+      "every field must be filled. Don't forget to choose avatar";
+  };
 
   return (
-    <div className={formStyles.FormContent}>
-      <label style={isEmailHover ? {fontSize: "12px"} : {fontSize: "15px"}} htmlFor="register-email-input">
-        Email
-      </label>
-      <input
-      ref={emailInputRef}
-        type="email"
-        id="register-email-input"
-        value={emailInput}
-        onChange={(e) => setEmailInput(e.target.value)}
-        autoComplete="on"
-      />
+    <>
+      {stage === 0 && (
+        <TypeChoosingStage
+          accountType={accountType}
+          setAccountType={setAccountType}
+          goToNextStep={goToNextStep}
+        />
+      )}
+      {stage === 1 && (
+        <SphereChoosing
+          goToNextStep={goToNextStep}
+          setSphere={setSphereInput}
+          sphere={sphereInput}
+        />
+      )}
 
-      <label style={isPasswordFocus ? {fontSize: "12px"} : {fontSize: "15px"}} htmlFor="register-password-input">
-        Password
-      </label>
-      <input
-      ref={passwordInputRef}
-
-        type="password"
-        id="register-password-input"
-        value={passwordInput}
-        onChange={(e) => setPasswordInput(e.target.value)}
-        autoComplete="on"
-      />
-    </div>
+      {stage === 2 && (
+        <MainStage
+          emailInput={emailInput}
+          setEmailInput={setEmailInput}
+          addressInput={addressInput}
+          setAddressInput={setAddressInput}
+          nicknameInput={nicknameInput}
+          setNicknameInput={setNicknameInput}
+          countryInput={countryInput}
+          setCountryInput={setCountryInput}
+          changeImage={changeImage}
+          passwordInput={passwordInput}
+          setPasswordInput={setPasswordInput}
+          register={register}
+        />
+      )}
+    </>
   );
 };
 

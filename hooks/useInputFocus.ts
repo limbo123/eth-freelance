@@ -21,5 +21,4 @@ export default function useInputFocus(ref) {
     }, [])
 
     return isFocusing;
-
 }

@@ -1,25 +1,15 @@
 import type { NextPage } from 'next'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { firestore } from '../firebase';
 import { doc, getDoc } from "firebase/firestore";
 import Navbar from "../components/Navbar/Navbar"  
-
-
-export async function getServerSideProps() {
-  const docRef = doc(firestore, "test", "test");
-  const docSnap = await getDoc(docRef);
-  const data = docSnap.data();
-  // console.log(data);
-  return {
-    props: {
-  
-    }
-  }
-}
+import { useCookies } from 'react-cookie';
+import { useAppSelector } from '../hooks/useAppSelector';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { setUser } from "../redux/auth/authSlice";
 
 
 const Home: NextPage = () => {
-
   return (
     <>
     <Navbar />

@@ -3,6 +3,16 @@
   flex-direction: column;
 }
 
+.inputSection {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputSection div {
+  display: flex;
+  flex-direction: column;
+}
+
 .FormContent label {
   text-align: left;
   font-family: "Josefin Sans", sans-serif;
@@ -12,8 +22,20 @@
 }
 
 .FormContent input {
+  display: block;
   margin-bottom: 10px;
-  width: 60%;
+  width: 100%;
   border: 0.5px solid rgb(189, 189, 189);
   height: 4vh;
+  font-family: "Josefin Sans", sans-serif;
+  /* caret-color: #ff0000; */
+}
+
+
+.LoginFormContent input{
+  width: 60%;
+}
+
+.error {
+  color: rgb(255, 0, 0);
 }

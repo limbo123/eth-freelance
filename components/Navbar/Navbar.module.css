@@ -1,8 +1,8 @@
 .Navbar {
   display: flex;
   justify-content: space-between;
-  height: 60px;
-  background: #10ab0b;
+  height: 80px;
+  border-bottom: 1px solid var(--root-color);
   width: 100%;
   align-items: center;
   padding: 0 10%;
@@ -11,23 +11,39 @@
 .Logo {
   font-family: "Josefin Sans", sans-serif;
   font-size: 20px;
-  color: #fff !important;
+  color: var(--root-color) !important;
 }
 
 .LoginBtn {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.18);
-  background-color: #fff;
-  color: #10ab0b;
-  border: none;
-  width: 10%;
+  background: #fff;
+  color: var(--root-color);
+  border: 2px solid var(--root-color);
+  width: 120px;
   height: 30px;
-  border-radius: 10px;
   transition: 0.2s;
 }
 
+.LoginBtn p {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 600;
+}
+
 .LoginBtn:hover {
-    background: rgb(223, 223, 223);
+    /* background: rgb(20, 122, 0); */
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+}
+
+.profileInfo img {
+  margin-left: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  object-fit: cover;
 }

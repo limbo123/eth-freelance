@@ -1,0 +1,65 @@
+.ProfileImg {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    object-fit: cover;
+  }
+  
+  .changeImageLabel p {
+    text-align: center;
+  }
+  
+  #register-country-input {
+    height: 30px;
+  }
+
+  .addressVerification {
+    margin-top: 10px;
+  }
+  
+  .addressVerification div {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row !important;
+  }
+  
+  .addressVerification p {
+    font-size: 13px;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+  
+  .addressVerification div button {
+    border: 1px solid var(--root-color);
+    width: 40%;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 3px;
+  }
+  
+  .verificationBtnYes {
+    background: var(--root-color);
+    color: #fff;
+  }
+  
+  .verificationBtnNo {
+    background: none;
+    color: var(--root-color);
+  }
+  
+  .registerBtn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    border-radius: 5px;
+    height: 30px;
+    border: none;
+    background: var(--root-color);
+    color: #fff;
+    margin-left: auto;
+  }
+  

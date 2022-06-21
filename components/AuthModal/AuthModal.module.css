@@ -16,8 +16,8 @@
   }
   
   .Modal {
-    width: 40%;
-    height: fit-content;
+    width: 500px;
+    height: auto;
     background: #fff;
     display: flex;
     flex-direction: column;
@@ -32,7 +32,7 @@
     margin: 0;
     width: 100%;
     text-align: center;
-    color: #10ab0b;
+    color: var(--root-color);
     font-family: "Josefin Sans", sans-serif;
     margin-bottom: 10px;
   }
@@ -41,7 +41,7 @@
     display: flex;
     list-style-type: none;
     padding: 0;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     width: 100%;
   }
 
