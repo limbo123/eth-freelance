@@ -31,6 +31,7 @@ const Navbar = () => {
         setIsLoading(false);
         return;
       }
+      console.log("user is not found");
       setIsLoading(false);
     })();
   }, []);
@@ -56,7 +57,7 @@ const Navbar = () => {
           </div>
         ) : (
           <>
-            {Object.keys(user).length > 0 ? (
+            {user && Object.keys(user).length > 0 ? (
               <>
                 <div className={styles.profileInfo}>
                   <h4>{user.username}</h4>

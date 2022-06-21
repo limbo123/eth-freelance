@@ -17,6 +17,7 @@
     "@types/react-redux": "^7.1.24",
     "axios": "^0.27.2",
     "classnames": "^2.3.1",
+    "deep-email-validator": "^0.1.21",
     "firebase": "^9.8.2",
     "fs-extra": "^10.1.0",
     "mocha": "^10.0.0",

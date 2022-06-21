@@ -4,7 +4,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import shortid from "shortid";
 import { firestore, storage } from "../../firebase";
-import { useForceUpdate } from '@react-spring/shared';
 
 interface userInfo {
   email: string;
@@ -91,28 +90,12 @@ export const registerUser = createAsyncThunk(
             .ref(`profileImages/${imageName}.jpg`)
             .getDownloadURL()
             .then((imageUrl) => {
-              console.log(typeof userData);
-              const userLayout = {
-                address: userData.address,
-                description: userData.description,
-                email: userData.email,
-                password: userData.password,
-                profilePhoto: imageUrl,
-                rating: 0,
-                username: userData.username,
-              };
-              let newUser;
-              if(userData.type === "developers") {
-                newUser = {...userLayout, completedTasks: []}
-              } else {
-                newUser = {...userLayout, createdTasks: [], moneysSpent: 0}
-              }
               firestore
                 .collection(userData.type)
                 .doc(userData.username)
-                .set(newUser)
+                .set({...userData, profilePhoto: imageUrl})
                 .then(() => {
-                  return newUser;
+                  return userData;
                 });
             });
         }

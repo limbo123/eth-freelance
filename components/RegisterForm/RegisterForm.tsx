@@ -53,6 +53,12 @@ const RegisterForm: FC = () => {
 
   const register = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    const emailValidation = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(emailInput.match(emailValidation)) {
+      console.log("email is valid");
+    } else {
+      console.log("email is invalid");
+    }
     if (
       emailInput &&
       nicknameInput &&
@@ -60,9 +66,8 @@ const RegisterForm: FC = () => {
       passwordInput &&
       currentPhoto
     ) {
-      const userObj: IDeveloper | IEmployer = {
+      const userObj = {
         address: addressInput,
-        completedTasks: [],
         description: aboutInput,
         email: emailInput,
         password: passwordInput,
@@ -72,7 +77,13 @@ const RegisterForm: FC = () => {
         type: accountType,
         sphere: sphereInput,
       };
-      await dispatch(registerUser(userObj));
+      let userByType: IEmployer | IDeveloper;
+      if(accountType === "developers") {
+        userByType = {...userObj, completedTasks: []}
+      } else {
+        userByType = {...userObj, createdTasks: [], moneysSpent: 0}
+      }
+      await dispatch(registerUser(userByType));
       return;
     }
 
