@@ -10,6 +10,7 @@ import { openAuthModal, setUser, logout } from "../../redux/auth/authSlice";
 import { useCookies } from "react-cookie";
 import { doc, getDoc } from "firebase/firestore";
 import { Skeleton } from "@mui/material";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const { isAuthModalOpened, user } = useAppSelector(
@@ -18,6 +19,7 @@ const Navbar = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -27,8 +29,13 @@ const Navbar = () => {
         const userSnap = await getDoc(currentUserRef);
         const currentUser = userSnap.data();
         console.log(currentUser);
-        dispatch(setUser(currentUser));
+        await dispatch(setUser(currentUser));
+        if(!sessionStorage.getItem("isUserAlreadyEntered")) {
+          router.push("/dashboard");
+          sessionStorage.setItem("isUserAlreadyEntered", true);
+        }
         setIsLoading(false);
+
         return;
       }
       console.log("user is not found");
@@ -62,7 +69,7 @@ const Navbar = () => {
                 <div className={styles.profileInfo}>
                   <h4>{user.username}</h4>
                   <img src={user.profilePhoto} alt="profile photo" />
-                  <button type="button" onClick={logoutUser}>
+                  <button type="button" className={styles.logoutBtn} onClick={logoutUser}>
                     Logout
                   </button>
                 </div>

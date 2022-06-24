@@ -197,11 +197,13 @@ const MainStage: FC<MainStageProps> = ({
       >
         Country
       </label>
+      <div className={styles.countrySelect}>
       <CountryDropdown
         value={countryInput}
         onChange={(val) => setCountryInput(val)}
         // style={{ height: 30, marginBottom: 20 }}
       />
+      </div>
 
       <button type="submit" onClick={register} className={styles.registerBtn}>
         {loading ? (

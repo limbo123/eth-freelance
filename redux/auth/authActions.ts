@@ -1,9 +1,10 @@
-import { IEmployer, IDeveloper } from './../../models/user';
-import { userSlice } from "./authSlice";
+import axios from "axios";
+import { IEmployer, IDeveloper } from "./../../models/user";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import shortid from "shortid";
 import { firestore, storage } from "../../firebase";
+import addressVerification from "../../ethereum/AddressVerification";
 
 interface userInfo {
   email: string;
@@ -14,10 +15,27 @@ export const registerUser = createAsyncThunk(
   "user/register",
   async (userData: IDeveloper | IEmployer, thunkAPI) => {
     try {
+      const emailValidation = await axios.get(
+        `/api/email?email=${userData.email}`
+      );
+      if (!emailValidation.data.valid) {
+        return thunkAPI.rejectWithValue(
+          "email is invalid. Check and try again"
+        );
+      }
+
+      try {
+        await addressVerification.methods
+          .verifyAddress(userData.address)
+          .call();
+      } catch (error) {
+        return thunkAPI.rejectWithValue("incorrect ethereum address");
+      }
+
       const usersCollection = collection(firestore, userData.type);
       let anotherTypeCollection;
-      if(userData.type === "employers") {
-        anotherTypeCollection = collection(firestore, "developers")
+      if (userData.type === "employers") {
+        anotherTypeCollection = collection(firestore, "developers");
       } else {
         anotherTypeCollection = collection(firestore, "employers");
       }
@@ -48,7 +66,6 @@ export const registerUser = createAsyncThunk(
       const identicalAddressDocs = await getDocs(identicalAddressRef);
       const anotherTypeUsernameDocs = await getDocs(usernameInAnotherTypeRef);
       const anotherTypeEmailDocs = await getDocs(emailInAnotherTypeRef);
-
 
       if (identicalEmailDocs.docs.length > 0) {
         return thunkAPI.rejectWithValue(
@@ -93,7 +110,7 @@ export const registerUser = createAsyncThunk(
               firestore
                 .collection(userData.type)
                 .doc(userData.username)
-                .set({...userData, profilePhoto: imageUrl})
+                .set({ ...userData, profilePhoto: imageUrl })
                 .then(() => {
                   return userData;
                 });

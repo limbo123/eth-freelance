@@ -31,9 +31,9 @@
   font-weight: 600;
 }
 
-.LoginBtn:hover {
+/* .LoginBtn:hover { */
     /* background: rgb(20, 122, 0); */
-}
+/* } */
 
 .profileInfo {
   display: flex;
@@ -46,4 +46,19 @@
   height: 40px;
   border-radius: 50px;
   object-fit: cover;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: var(--root-color);
+  border: 2px solid var(--root-color);
+  width: 100px;
+  height: 30px;
+  transition: 0.2s;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 600;
+  margin-left: 10px;
 }

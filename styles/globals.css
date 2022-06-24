@@ -9,6 +9,7 @@ body {
 
 :root {
   --root-color: #8025b1;
+  --root-font: 'Josefin Sans', sans-serif;
 }
 
 a {

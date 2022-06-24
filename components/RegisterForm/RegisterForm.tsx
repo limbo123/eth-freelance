@@ -9,6 +9,7 @@ import TypeChoosingStage from "./TypeChoosingStage/TypeChoosingStage";
 import MainStage from "./MainStage/MainStage";
 import axios from "axios";
 import SphereChoosing from "./SphereChoosing/SphereChoosing";
+import { useRouter } from "next/router";
 
 const RegisterForm: FC = () => {
   const [stage, setStage] = useState(0);
@@ -22,6 +23,7 @@ const RegisterForm: FC = () => {
   const [countryInput, setCountryInput] = useState("");
   const [sphereInput, setSphereInput] = useState("Choose your sphere");
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -53,12 +55,14 @@ const RegisterForm: FC = () => {
 
   const register = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const emailValidation = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if(emailInput.match(emailValidation)) {
-      console.log("email is valid");
-    } else {
-      console.log("email is invalid");
-    }
+    // const emailValidation = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // if(emailInput.match(emailValidation)) {
+    //   console.log("email is valid");
+    // } else {
+    //   console.log("email is invalid");
+    // }
+
+    
     if (
       emailInput &&
       nicknameInput &&
@@ -84,6 +88,7 @@ const RegisterForm: FC = () => {
         userByType = {...userObj, createdTasks: [], moneysSpent: 0}
       }
       await dispatch(registerUser(userByType));
+      router.push("/dashboard");
       return;
     }
 

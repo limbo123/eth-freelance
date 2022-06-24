@@ -1,9 +1,11 @@
+import { IDeveloper, IEmployer } from './../../models/user';
 import { createSlice } from "@reduxjs/toolkit";
-import IUser from "../../models/user";
 import { loginUser, registerUser } from "./authActions";
 
+type IUser = IDeveloper | IEmployer;
+
 interface IState {
-  user: IUser | undefined;
+  user: IUser;
   loading: boolean;
   registerError: string;
   loginError: string;

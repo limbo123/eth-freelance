@@ -62,4 +62,10 @@
     color: #fff;
     margin-left: auto;
   }
+
+  .countrySelect * {
+    height: 30px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
   

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-contract taskFactory {
+contract TaskFactory {
     address[] public allTasks;
 
     function createTask(string memory header, string memory description, string[] memory hashtags) public payable {

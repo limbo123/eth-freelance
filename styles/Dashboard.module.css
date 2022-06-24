@@ -1,0 +1,44 @@
+.container {
+    padding: 50px 10% 0 10%;
+}
+
+.greetings {
+    width: 45%;
+    border-radius: 5px;
+    padding: 30px;
+    background: #f3e6f5;
+    color: #4f0062;
+}
+
+.findWorkBtn {
+    background: var(--root-color);
+    color: #fff;
+    border: none;
+    width: 150px;
+    height: 35px;
+    border-radius: 15px;
+    font-family: var(--root-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-top: 50px; */
+    cursor: pointer;
+}
+
+.greetings div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 50px;
+}
+
+.greetings div a {
+    text-decoration: underline;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.greetings span {
+    font-family: 'Segoe UI';
+}

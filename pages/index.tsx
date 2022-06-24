@@ -12,8 +12,7 @@ import { setUser } from "../redux/auth/authSlice";
 const Home: NextPage = () => {
   return (
     <>
-    <Navbar />
-    <h1>Dashboard page</h1>
+    <h1>Main page</h1>
     </>
   )
 }

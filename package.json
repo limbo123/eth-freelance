@@ -20,6 +20,7 @@
     "deep-email-validator": "^0.1.21",
     "firebase": "^9.8.2",
     "fs-extra": "^10.1.0",
+    "ganache-cli": "^6.12.2",
     "mocha": "^10.0.0",
     "next": "12.1.6",
     "react": "^17.0.0",

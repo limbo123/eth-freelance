@@ -8,6 +8,7 @@ import styles from "./LoginForm.module.css";
 import formStyles from "../../styles/FormContent.module.css";
 import { css } from "@emotion/react";
 import { ClipLoader } from "react-spinners";
+import { useRouter } from "next/router";
 
 const LoginForm: FC = () => {
   const [passwordInput, setPasswordInput] = useState("");
@@ -18,11 +19,13 @@ const LoginForm: FC = () => {
   const isPasswordFocus = useInputFocus(passwordInputRef);
   const dispatch = useAppDispatch();
   const { loading, loginError } = useAppSelector((state) => state.authReducer);
+  const router = useRouter();
 
   const login = async(e: React.SyntheticEvent) => {
     e.preventDefault();
     if (emailInput && passwordInput) {
       await dispatch(loginUser({ email: emailInput, password: passwordInput }));
+      router.push("/dashboard");
       return;
     }
 
