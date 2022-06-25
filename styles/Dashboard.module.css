@@ -3,7 +3,7 @@
 }
 
 .greetings {
-    width: 45%;
+    width: 100%;
     border-radius: 5px;
     padding: 30px;
     background: #f3e6f5;
@@ -41,4 +41,20 @@
 
 .greetings span {
     font-family: 'Segoe UI';
+}
+.searchWorkForm {
+    width: 50%;
+}
+
+.searchWorkForm input{
+    width: 100%;
+    margin-bottom: 20px;
+    height: 30px;
+    border: 1px solid #cbaad7;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+.searchWorkForm input::placeholder {
+    font-family: var(--root-font);
 }

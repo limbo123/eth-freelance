@@ -6,20 +6,27 @@ import { HiLogin } from "react-icons/hi";
 import AuthModal from "../AuthModal/AuthModal";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { openAuthModal, setUser, logout } from "../../redux/auth/authSlice";
+import {
+  openAuthModal,
+  setUser,
+  logout,
+  setStartLoading,
+} from "../../redux/auth/authSlice";
 import { useCookies } from "react-cookie";
 import { doc, getDoc } from "firebase/firestore";
 import { Skeleton } from "@mui/material";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Navbar = () => {
-  const { isAuthModalOpened, user } = useAppSelector(
+  const { isAuthModalOpened, user, startLoading } = useAppSelector(
     (state) => state.authReducer
   );
   const [cookies, setCookie, removeCookie] = useCookies();
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  // const { startLoading } = useAppSelector(state => state.authReducer);
 
   useEffect(() => {
     (async () => {
@@ -28,18 +35,22 @@ const Navbar = () => {
         const currentUserRef = doc(firestore, user.type, user.username);
         const userSnap = await getDoc(currentUserRef);
         const currentUser = userSnap.data();
-        console.log(currentUser);
         await dispatch(setUser(currentUser));
-        if(!sessionStorage.getItem("isUserAlreadyEntered")) {
-          router.push("/dashboard");
+        if (!sessionStorage.getItem("isUserAlreadyEntered")) {
+          router.replace("/dashboard");
+          console.log("replace");
           sessionStorage.setItem("isUserAlreadyEntered", true);
-        }
-        setIsLoading(false);
+          setTimeout(() => {
+            dispatch(setStartLoading(false));
 
+          }, 1000)
+          return;
+        }
+        dispatch(setStartLoading(false));
         return;
       }
       console.log("user is not found");
-      setIsLoading(false);
+      dispatch(setStartLoading(false));
     })();
   }, []);
 
@@ -47,6 +58,13 @@ const Navbar = () => {
     removeCookie("user");
     dispatch(logout());
   };
+  if (startLoading) {
+    return (
+      <div className={styles.startLoader}>
+        <h1>Go Freelance</h1>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -69,7 +87,11 @@ const Navbar = () => {
                 <div className={styles.profileInfo}>
                   <h4>{user.username}</h4>
                   <img src={user.profilePhoto} alt="profile photo" />
-                  <button type="button" className={styles.logoutBtn} onClick={logoutUser}>
+                  <button
+                    type="button"
+                    className={styles.logoutBtn}
+                    onClick={logoutUser}
+                  >
                     Logout
                   </button>
                 </div>

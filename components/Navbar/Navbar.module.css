@@ -62,3 +62,17 @@
   font-weight: 600;
   margin-left: 10px;
 }
+
+.startLoader {
+  display: flex;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fff;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  color: var(--root-color);
+}

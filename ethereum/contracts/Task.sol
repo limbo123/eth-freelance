@@ -4,10 +4,11 @@ pragma solidity ^0.8.9;
 contract TaskFactory {
     address[] public allTasks;
 
-    function createTask(string memory header, string memory description, string[] memory hashtags) public payable {
+    function createTask(string memory header, string memory description, string[] memory hashtags) public payable returns(address) {
         Task newTask = new Task{value: msg.value}(header, description, hashtags, msg.sender);
         address taskAddress = address(newTask);
         allTasks.push(taskAddress);
+        return taskAddress;
     }
 
     function getAllTasks() public view returns(address[] memory) {

@@ -9,12 +9,14 @@ interface IState {
   loading: boolean;
   registerError: string;
   loginError: string;
-  isAuthModalOpened: boolean
+  isAuthModalOpened: boolean,
+  startLoading: boolean
 }
 
 const initialState: IState = {
   user: {} as IUser,
   loading: false,
+  startLoading: true,
   registerError: "",
   loginError: "",
   isAuthModalOpened: false,
@@ -40,6 +42,11 @@ export const userSlice = createSlice({
 
     logout: (state) => {
       state.user = {} as IUser;
+    },
+
+    setStartLoading: (state, action) => {
+      state.startLoading = action.payload;
+      console.log("loader off");
     }
   },
   extraReducers: (builder) => {
@@ -74,6 +81,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, openAuthModal, closeAuthModal, logout } = userSlice.actions;
+export const { setStartLoading, setUser, openAuthModal, closeAuthModal, logout } = userSlice.actions;
 
 export default userSlice.reducer;
