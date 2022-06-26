@@ -1,8 +1,8 @@
 import web3 from "./web3";
-import { abi } from "./build/TaskFactory.json";
+import TaskFactory from "./build/TaskFactory.json";
 
-const address = "0x32abF6Db843dc6b95C5349701fc5e06638569cE6";
+const address = "0x0d111637e3BC89B13Ed0651d2B8e849cA1e65cb1";
 
-const addressVerificaiton = new web3.eth.Contract(abi, address);
+const addressVerificaiton = new web3.eth.Contract(TaskFactory.abi, address);
 
 export default addressVerificaiton;

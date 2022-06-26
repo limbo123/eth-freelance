@@ -5,16 +5,29 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdArrowDropdown } from "react-icons/io";
 import Link from "next/link";
 import TaskFactory from "../ethereum/TaskFactory";
+import web3 from "../ethereum/web3";
+import taskContractInfo from "../ethereum/build/Task.json";
+
 
 const Dashboard: FC = () => {
   const { user } = useAppSelector((state) => state.authReducer);
   const [searchWorkInput, setSearchWorkInput] = useState("");
-  useEffect(() => {
-    (async() => {
-      const allTasks = await TaskFactory.methods.getAllTasks().call();
-      console.log(allTasks);
-    })()
-  }, [])
+  const [results, setResults] = useState([]);
+    useEffect(() => {
+      const allTasks: any = [];
+      (async() => {
+        const allTasksAddresses = await TaskFactory.methods.getAllTasks().call()
+        allTasksAddresses.map(async(address, idx, arr) => {
+          const taskContract = await new web3.eth.Contract(taskContractInfo.abi, address);
+          const task = await taskContract.methods.getInfo().call();
+          allTasks.push(task);
+          if(idx === arr.length - 1) {
+            setResults(allTasks);
+          }
+        })
+      })()
+    }, []);
+    console.log(results);
   return (
     <>
       {user.type && user.type === "developers" && (

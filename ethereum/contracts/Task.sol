@@ -4,8 +4,8 @@ pragma solidity ^0.8.9;
 contract TaskFactory {
     address[] public allTasks;
 
-    function createTask(string memory header, string memory description, string[] memory hashtags) public payable returns(address) {
-        Task newTask = new Task{value: msg.value}(header, description, hashtags, msg.sender);
+    function createTask(string memory header, string memory description, string[] memory files, string[] memory hashtags) public payable returns(address) {
+        Task newTask = new Task{value: msg.value}(header, description, files, hashtags, msg.sender);
         address taskAddress = address(newTask);
         allTasks.push(taskAddress);
         return taskAddress;
@@ -26,6 +26,7 @@ contract Task {
 
     address payable public manager;
     string public taskName;
+    string[] public taskFiles;
     string public taskDescription;
     string[] public taskHashtags;
     address payable public worker;
@@ -33,12 +34,17 @@ contract Task {
     mapping(address => Request) public requests;
 
 
-    constructor(string memory header, string memory description, string[] memory hashtags, address newManager) payable {
+    constructor(string memory header, string memory description, string[] memory files, string[] memory hashtags, address newManager) payable {
         manager = payable(newManager);
         taskName = header;
+        taskFiles = files;
         taskDescription = description; 
         taskHashtags = hashtags;
         isCompleted = false;
+    }
+
+    function getInfo() public view returns(address payable, string memory, string[] memory, string memory, address payable, bool) {
+        return (manager, taskName, taskFiles, taskDescription, worker, isCompleted);  
     }
 
     modifier restricted() {

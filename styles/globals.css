@@ -7,6 +7,11 @@ body {
   font-family: 'Josefin Sans', sans-serif;
 }
 
+::selection {
+  background: var(--root-color);
+  color: #fff;
+}
+
 :root {
   --root-color: #8025b1;
   --root-font: 'Josefin Sans', sans-serif;
