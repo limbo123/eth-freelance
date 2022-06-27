@@ -1,7 +1,7 @@
 import web3 from "./web3";
 import TaskFactory from "./build/TaskFactory.json";
 
-const address = "0x0d111637e3BC89B13Ed0651d2B8e849cA1e65cb1";
+const address = "0xa03389C72917F64909fe8529b99a2af384Add33d";
 
 const addressVerificaiton = new web3.eth.Contract(TaskFactory.abi, address);
 

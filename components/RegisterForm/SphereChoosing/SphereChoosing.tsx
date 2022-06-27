@@ -24,7 +24,7 @@ const SphereChoosing: FC<SphereChoosingProps> = ({
           {[
             "Choose your sphere",
             "Design",
-            " IT Development",
+            "IT Development",
             "Admin Support",
             "Media development",
           ].map((option) => {

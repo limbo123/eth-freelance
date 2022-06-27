@@ -53,7 +53,7 @@ const createTask: FC = () => {
         uploadBytes(storageRef, file).then((snapshot) => {
           getDownloadURL(snapshot.ref).then(async(downloadUrl) => {
             filesArr.push(downloadUrl);
-            const task = await TaskFactory.methods.createTask(titleInput, descriptionInput, filesArr, skillsArr).send({ from: accounts[0] });
+            const task = await TaskFactory.methods.createTask(titleInput, descriptionInput, sphereSelect, filesArr, skillsArr).send({ from: accounts[0] });
             console.log(task);
           })
         })
@@ -88,7 +88,7 @@ const createTask: FC = () => {
           {[
             "Choose your sphere",
             "Design",
-            " IT Development",
+            "IT Development",
             "Admin Support",
             "Media development",
           ].map((option) => {
