@@ -21,6 +21,7 @@ contract Task {
 
     struct Request {
         string description;
+        address payable author;
         bool exist;
     }
 
@@ -33,6 +34,8 @@ contract Task {
     address payable public worker;
     bool public isCompleted;
     mapping(address => Request) public requests;
+    address payable[] public requestsKeys;
+    uint public requestsCount;
 
 
     constructor(string memory header, string memory description, string memory sphere, string[] memory files, string[] memory hashtags, address newManager) payable {
@@ -65,7 +68,7 @@ contract Task {
 
     function creaetRequest(string memory description) public  {
         requests[msg.sender] = Request(
-            description, true
+            description, payable(msg.sender), true
         );
     }
 
