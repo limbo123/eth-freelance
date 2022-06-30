@@ -22,6 +22,7 @@ const Dashboard: FC = () => {
   const TaskStyles = useSpring({
     position: "fixed",
     margin: "auto",
+    // display: activeTask.address ? "block" : "none",
     bottom: activeTask.address ? "0" : "-100vh",
   });
 
@@ -78,7 +79,7 @@ const Dashboard: FC = () => {
     <animated.div style={{
       ...TaskStyles
     } as any}>
-    <TaskModal task={activeTask} closeTask={() => setActiveTask({} as ITask)} />
+    {activeTask.address && <TaskModal task={activeTask} closeTask={() => setActiveTask({} as ITask)} />}
     </animated.div>
       {user.type && user.type === "developers" && (
         <div className={styles.container}>

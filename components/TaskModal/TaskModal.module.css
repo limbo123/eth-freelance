@@ -18,3 +18,19 @@
 .taskDate {
     color: #828282;
 }
+
+.info {
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.taskInfo {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.taskDescription {
+
+}
