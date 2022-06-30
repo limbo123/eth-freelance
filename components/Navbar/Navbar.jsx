@@ -29,6 +29,8 @@ const Navbar = () => {
   // const { startLoading } = useAppSelector(state => state.authReducer);
 
   useEffect(() => {
+    
+
     (async () => {
       const user = cookies.user;
       if (user) {
@@ -36,14 +38,13 @@ const Navbar = () => {
         const userSnap = await getDoc(currentUserRef);
         const currentUser = userSnap.data();
         await dispatch(setUser(currentUser));
+        router.events.on('routeChangeComplete', () => {
+          dispatch(setStartLoading(false));
+        })
         if (!sessionStorage.getItem("isUserAlreadyEntered")) {
-          router.replace("/dashboard");
+          router.push("/dashboard");
           console.log("replace");
           sessionStorage.setItem("isUserAlreadyEntered", true);
-          setTimeout(() => {
-            dispatch(setStartLoading(false));
-
-          }, 1000)
           return;
         }
         dispatch(setStartLoading(false));
@@ -52,6 +53,7 @@ const Navbar = () => {
       console.log("user is not found");
       dispatch(setStartLoading(false));
     })();
+ 
   }, []);
 
   const logoutUser = () => {
@@ -69,7 +71,7 @@ const Navbar = () => {
   return (
     <>
       <div className={styles.Navbar}>
-        <h3 className={styles.Logo}>Go Freelance</h3>
+        <h3 className={styles.Logo} onClick={() => router.push("/")}>Go Freelance</h3>
         {isLoading ? (
           <div style={{ display: "flex", alignItems: "center" }}>
             <Skeleton

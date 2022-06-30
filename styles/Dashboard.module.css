@@ -6,8 +6,21 @@
     width: 100%;
     border-radius: 5px;
     padding: 30px;
+
+}
+
+.greetingsDev {
     background: #f3e6f5;
     color: #4f0062;
+}
+
+.greetingsEmp {
+    background: #e6ecf5;
+    color: #1d0062;
+}
+
+.greetingsEmp div {
+    justify-content: flex-start !important;
 }
 
 .findWorkBtn {
@@ -21,8 +34,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* margin-top: 50px; */
     cursor: pointer;
+}
+
+.createTaskBtn {
+    background: #3f1a95;
+    color: #fff;
+    border: none;
+    width: 150px;
+    height: 35px;
+    border-radius: 15px;
+    font-family: var(--root-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
 .greetings div {
@@ -59,6 +86,10 @@
     font-family: var(--root-font);
 }
 
+.empTasksSection {
+    width: 50%;
+}
+
 .sectionHeader {
     margin-bottom: 50px;
 }
@@ -69,6 +100,70 @@
     border: 1px solid #d2d2d2;
     padding: 10px;
     border-radius: 5px;
+}
+
+.taskCard div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.proposalPageBtn {
+    background: var(--root-color);
+    color: #fff;
+    border: none;
+    width: 150px;
+    height: 35px;
+    border-radius: 15px;
+    font-family: var(--root-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+.taskStatistics {
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.taskStatistics button {
+    background: #3f1a95;
+    border: none;
+    color: #fff;
+    width: 150px;
+    height: 35px;
+    border-radius: 15px;
+    font-family: var(--root-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.taskStatistics ul {
+    display: flex;
+    padding: 0;
+}
+
+.taskStatistics ul li {
+    list-style-type: none;
+    /* border-right: 1px solid; */
+    margin-right: 20px;
+}
+
+.stat {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat h4 {
+    margin: 0 0 20px 0;
+    color: #434343;
 }
 
 .skillsList {
