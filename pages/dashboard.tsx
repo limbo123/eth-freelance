@@ -23,7 +23,6 @@ const Dashboard: FC = () => {
     position: "fixed",
     margin: "auto",
     bottom: activeTask.address ? "0" : "-100vh",
-    // boxShadow: activeTask.address ? "0px -5px 88px 40px rgba(34, 60, 80, 0.2)" : "none"
   });
 
   useEffect(() => {
@@ -78,7 +77,7 @@ const Dashboard: FC = () => {
     <>
     <animated.div style={{
       ...TaskStyles
-    }}>
+    } as any}>
     <TaskModal task={activeTask} closeTask={() => setActiveTask({} as ITask)} />
     </animated.div>
       {user.type && user.type === "developers" && (
