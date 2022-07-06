@@ -1,0 +1,47 @@
+.requests {
+    padding: 0;
+}
+
+.requests li {
+    list-style-type: none;
+    width: 100%;
+    border: 1px solid #d2d2d2;
+    border-radius: 5px;
+    padding: 20px;
+    position: relative;
+}
+
+.authorInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.authorInfo img {
+    margin-right: 20px;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.rating {
+    color: #797979;
+}
+
+.respondReqBtn {
+    position: absolute;
+    right: 20px;
+    background: #3f1a95;
+    color: #fff;
+    width: 150px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    font-family: var(--root-font);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+}

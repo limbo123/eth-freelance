@@ -1,4 +1,5 @@
 .TaskModal {
+    overflow-y: scroll;
     height: 80vh;
     width: 100vw;
     background: #fff;
@@ -15,6 +16,51 @@
     right: 30px;
 } 
 
+/* .empInfoTitle {
+    text-align: left;
+} */
+
+.employerInfo {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 200px;
+    position: absolute;
+    right: 30px;
+}
+
+.empImage {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.empStats {
+    width: 100%;
+    margin-top: 50px;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.empStats li {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.empStats li h4 {
+    font-size: 12px;
+}
+
+.empStats li p {
+    font-size: 14px;
+}
+
 .taskDate {
     color: #828282;
 }
@@ -23,6 +69,7 @@
     margin-top: 60px;
     display: flex;
     justify-content: space-between;
+    /* align-items: center; */
 }
 
 .taskInfo {
@@ -31,6 +78,63 @@
     flex-direction: column;
 }
 
-.taskDescription {
-
+.taskDescription span {
+    color: var(--root-color);
+    font-size: 20px;
+    cursor: pointer;
 }
+
+.taskFiles {
+    margin-top: 40px;
+    /* position: absolute;
+    bottom: 0; */
+}
+
+.filesTitle {
+    margin: 0;
+    padding: 0;
+}
+
+.taskFileList {
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.taskFileList li {
+    list-style-type: none;
+    text-decoration: underline;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.skillsList {
+    display: flex;
+    padding: 0;
+}
+
+.skillsList li {
+    list-style-type: none;
+    margin-right: 10px;
+    background: var(--root-color);
+    color: #fff;
+    padding: 5px;
+    border-radius: 20px;
+    font-size: 13px;
+    min-width: 50px;
+    text-align: center;
+}
+
+.proposalBtn {
+    background: var(--root-color);
+    color: #fff;
+    border: none;
+    width: 150px;
+    height: 35px;
+    border-radius: 15px;
+    font-family: var(--root-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+

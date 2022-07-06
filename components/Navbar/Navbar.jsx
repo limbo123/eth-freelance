@@ -42,7 +42,12 @@ const Navbar = () => {
           dispatch(setStartLoading(false));
         })
         if (!sessionStorage.getItem("isUserAlreadyEntered")) {
-          router.push("/dashboard");
+          if(router.pathname !== "/") {
+            router.push(router.asPath);
+          }
+          else {
+            router.push("/dashboard")
+          }
           console.log("replace");
           sessionStorage.setItem("isUserAlreadyEntered", true);
           return;

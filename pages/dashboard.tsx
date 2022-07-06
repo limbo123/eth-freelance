@@ -11,6 +11,9 @@ import classNames from "classnames";
 import { ITask } from "../models/task";
 import { animated, useSpring } from "react-spring";
 import TaskModal from "../components/TaskModal/TaskModal";
+import DevDashboard from "../components/DevDashboard/DevDashboard";
+import EmpDashboard from "../components/EmpDashboard/EmpDashboard";
+import Router from "next/router";
 
 const Dashboard: FC = () => {
   const { user } = useAppSelector((state) => state.authReducer);
@@ -22,9 +25,19 @@ const Dashboard: FC = () => {
   const TaskStyles = useSpring({
     position: "fixed",
     margin: "auto",
-    // display: activeTask.address ? "block" : "none",
-    bottom: activeTask.address ? "0" : "-100vh",
+    bottom: isTaskShowing ? "0" : "-100vh",
   });
+
+  const setTask = (task: ITask) => {
+    setActiveTask(task);
+    setIsTaskShowing(true);
+    Router.replace(`/dashboard?task_address=${task.address}`,  undefined, { scroll: false });
+  };
+
+  const closeTask = () => {
+    setIsTaskShowing(false);
+    Router.replace("/dashboard", undefined, { scroll: false });
+  }
 
   useEffect(() => {
     const allTasks: any = [];
@@ -74,128 +87,41 @@ const Dashboard: FC = () => {
       });
     })();
   }, [user]);
+
+  useEffect(() => {
+    if(Router.query.task_address && results.length > 0) {
+      const task = results.find((task: ITask) => task.address === Router.query.task_address)
+      if(task) {
+        setTask(task)
+      }
+    }
+  }, [results])
   return (
     <>
-    <animated.div style={{
-      ...TaskStyles
-    } as any}>
-    {activeTask.address && <TaskModal task={activeTask} closeTask={() => setActiveTask({} as ITask)} />}
-    </animated.div>
+      <animated.div
+        style={
+          {
+            ...TaskStyles,
+          } as any
+        }
+      >
+        {activeTask && activeTask.address && (
+          <TaskModal
+            task={activeTask}
+            closeTask={closeTask}
+          />
+        )}
+      </animated.div>
       {user.type && user.type === "developers" && (
-        <div className={styles.container}>
-          <div className={classNames(styles.greetings, styles.greetingsDev)}>
-            <h1>
-              Welcome, {user.username} <span>:)</span>
-            </h1>
-            <h2>Are you ready to work?</h2>
-            <div>
-              <form action="" className={styles.searchWorkForm}>
-                <input
-                  type="text"
-                  placeholder="Search there"
-                  value={searchWorkInput}
-                  onChange={(e) => setSearchWorkInput(e.target.value)}
-                />
-                <button type="button" className={styles.findWorkBtn}>
-                  Search Work <AiOutlineSearch size={"1.2rem"} />
-                </button>
-              </form>
-
-              <a>
-                Or find below <IoMdArrowDropdown />
-              </a>
-            </div>
-          </div>
-          <div className={styles.tasksSection}>
-            <h2 className={styles.sectionHeader}>Recommended for you</h2>
-
-            {results.map((task: ITask, idx) => {
-              // if (idx !== 0) {
-              return (
-                // <Link href={`${task.address}/`}>
-                  <div key={idx} onClick={() => setActiveTask(task)} className={styles.taskCard}>
-                    <h2>{task.title}</h2>
-                    <p>{task.description}</p>
-                    <div>
-                      <ul className={styles.skillsList}>
-                        {["React.js", "JS", "html"].map((skill) => {
-                          return <li key={skill}>{skill}</li>;
-                        })}
-                      </ul>
-                      {/* <Link href={`${task.address}/createProposal`}> */}
-                        <button className={styles.proposalPageBtn}>
-                          Create Proposal +
-                        </button>
-                      {/* </Link> */}
-                    </div>
-                  </div>
-                // </Link>
-              );
-              // }
-            })}
-          </div>
-        </div>
+        <DevDashboard
+          tasks={results}
+          searchWorkInput={searchWorkInput}
+          setSearchWorkInput={setSearchWorkInput}
+          setTask={setTask}
+        />
       )}
       {user.type && user.type === "employers" && (
-        <div className={styles.container}>
-          <div className={classNames(styles.greetings, styles.greetingsEmp)}>
-            <h1>
-              Welcome, {user.username} <span>:)</span>
-            </h1>
-            <h2>Ready to manage your tasks?</h2>
-            <div>
-              <button type="button" className={styles.createTaskBtn}>
-                Find Talent{" "}
-                <AiOutlineSearch style={{ marginLeft: 10 }} size={"1.2rem"} />
-              </button>
-              <Link href={"/createTask"}>
-                <button type="button" className={styles.createTaskBtn}>
-                  Create Task +
-                </button>
-              </Link>
-            </div>
-          </div>
-          <div className={styles.empTasksSection}>
-            <h2 className={styles.sectionHeader}>Your tasks</h2>
-            {results.map((task: ITask, idx) => {
-              // if (idx !== 0) {
-              return (
-                <div key={idx} onClick={() => setActiveTask(task)}  className={styles.taskCard}>
-                  <h2>{task.title}</h2>
-                  {/* <h3>Statistics:</h3> */}
-                  <div className={styles.taskStatistics}>
-                    <button type="button">
-                      View Full Stats{" "}
-                      <AiFillFolder
-                        style={{ marginLeft: 10 }}
-                        size={"1.2rem"}
-                      />
-                    </button>
-                    <ul>
-                      <li>
-                        <div className={styles.stat}>
-                          <h4>Applicants</h4>
-                          {task.requestsKeys.length}
-                        </div>
-                      </li>
-                      <li>
-                        <div className={styles.stat}>
-                          <h4>Status</h4>
-                          {task.isCompleted
-                            ? "Completed"
-                            : +task.worker === 0
-                            ? "Not started"
-                            : "In progress"}
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              );
-              // }
-            })}
-          </div>
-        </div>
+        <EmpDashboard tasks={results} setTask={setTask} />
       )}
     </>
   );

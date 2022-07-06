@@ -46,7 +46,7 @@ export const userSlice = createSlice({
 
     setStartLoading: (state, action) => {
       state.startLoading = action.payload;
-      console.log("loader off");
+      // console.log("loader off");
     }
   },
   extraReducers: (builder) => {

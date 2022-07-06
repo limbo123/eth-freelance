@@ -6,11 +6,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import useInputFocus from "../../../hooks/useInputFocus";
 import { ClipLoader } from "react-spinners";
 import { css } from "@emotion/react";
-import {
-  CountryDropdown,
-  RegionDropdown,
-  CountryRegionData,
-} from "react-country-region-selector";
+import { CountryDropdown } from "react-country-region-selector";
 
 interface MainStageProps {
   changeImage: (arg: any) => void;
@@ -47,6 +43,7 @@ const MainStage: FC<MainStageProps> = ({
 
   const loaderStyles = css`
     display: block;
+    background: #000;
   `;
 
   const hideVerification = () => {
@@ -198,11 +195,11 @@ const MainStage: FC<MainStageProps> = ({
         Country
       </label>
       <div className={styles.countrySelect}>
-      <CountryDropdown
-        value={countryInput}
-        onChange={(val) => setCountryInput(val)}
-        // style={{ height: 30, marginBottom: 20 }}
-      />
+        <CountryDropdown
+          value={countryInput}
+          onChange={(val) => setCountryInput(val)}
+          // style={{ height: 30, marginBottom: 20 }}
+        />
       </div>
 
       <button type="submit" onClick={register} className={styles.registerBtn}>

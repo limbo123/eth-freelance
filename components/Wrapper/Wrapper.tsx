@@ -1,38 +1,51 @@
 import { collection, doc, getDoc } from "firebase/firestore";
 import Router from "next/router";
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { start } from "repl";
-import { firestore } from "../../firebase";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { setUser } from "../../redux/auth/authSlice";
+import styles from "./Wrapper.module.css";
 import Navbar from "../Navbar/Navbar";
-
-// interface WrapperProps {
-//   children?: React.ReactNode;
-// }
+import { BsChatLeftText } from "react-icons/bs";
+import { animated, useSpring } from "react-spring";
+import Chats from "../Chats/Chats";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const Wrapper = ({ children }) => {
-  const [cookies, setCookie, removeCookie] = useCookies();
-  // const { startLoading } = useAppSelector(state => state.authReducer);
+  const { user } = useAppSelector((state) => state.authReducer);
+  const [cookies] = useCookies();
+  const [isChatsOpened, setIsChatsOpened] = useState(false);
 
   useEffect(() => {
-    if(cookies.user) {
+    if (cookies.user) {
       return;
     }
     Router.push("/");
   }, []);
 
-  // if(startLoading) {
-  //   return <h1>Is Loading...</h1>
-  // }
+  const chatStyles = useSpring({
+    position: "fixed",
+    top: "0",
+    right: isChatsOpened ? "0" : "-40vw",
+  });
 
-  
-  return <>
-  <Navbar />
-  {children}
-  </>;
+  return (
+    <>
+      <Navbar />
+      {user.address && (
+        <animated.div style={{ ...chatStyles } as any}>
+          <Chats close={() => setIsChatsOpened(false)}/>
+        </animated.div>
+      )}
+      <button
+        type="button"
+        style={isChatsOpened ? {display: "none"} : {}}
+        onClick={() => setIsChatsOpened(!isChatsOpened)}
+        className={styles.chatsBtn}
+      >
+        <BsChatLeftText color="#fff" size={"1.5rem"} />
+      </button>
+      {children}
+    </>
+  );
 };
 
 export default Wrapper;

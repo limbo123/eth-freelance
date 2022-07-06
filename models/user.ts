@@ -8,7 +8,8 @@ export interface IDeveloper {
     rating: number,
     profilePhoto: string | ArrayBuffer | Uint8Array | Blob,
     type: string,
-    sphere: string
+    sphere: string,
+    createdAt?: number
 }
 
 export interface IEmployer {
@@ -22,5 +23,6 @@ export interface IEmployer {
     rating: number,
     profilePhoto: string | ArrayBuffer | Uint8Array | Blob,
     type: string,
-    sphere: string
+    sphere: string,
+    createdAt?: number
 }

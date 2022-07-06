@@ -110,7 +110,7 @@ export const registerUser = createAsyncThunk(
               firestore
                 .collection(userData.type)
                 .doc(userData.username)
-                .set({ ...userData, profilePhoto: imageUrl })
+                .set({ ...userData, profilePhoto: imageUrl, createdAt: Date.now() })
                 .then(() => {
                   return userData;
                 });

@@ -17,7 +17,8 @@ contract TaskFactory {
             sphere,
             files,
             hashtags,
-            msg.sender
+            msg.sender,
+            block.timestamp
         );
         address taskAddress = address(newTask);
         allTasks.push(taskAddress);
@@ -46,6 +47,7 @@ contract Task {
     bool public isCompleted;
     mapping(address => Request) public requests;
     address payable[] public requestsKeys;
+    uint public taskTimestamp;
 
     // uint public requestsCount;
 
@@ -55,7 +57,8 @@ contract Task {
         string memory sphere,
         string[] memory files,
         string[] memory hashtags,
-        address newManager
+        address newManager,
+        uint timestamp
     ) payable {
         manager = payable(newManager);
         taskSphere = sphere;
@@ -64,6 +67,7 @@ contract Task {
         taskDescription = description;
         taskHashtags = hashtags;
         isCompleted = false;
+        taskTimestamp = timestamp;
     }
 
     function getInfo()

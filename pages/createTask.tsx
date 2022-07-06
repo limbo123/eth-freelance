@@ -4,9 +4,12 @@ import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
 import TaskFactory from "../ethereum/TaskFactory";
 import web3 from "../ethereum/web3";
+import shortid from "shortid";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 const createTask: FC = () => {
   // const [stage, setStage] = useState(0);
+  const { user } = useAppSelector(state => state.authReducer);
   const [titleInput, setTitleInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [sphereSelect, setSphereSelect] = useState("");
@@ -35,33 +38,59 @@ const createTask: FC = () => {
     a.click();
   };
 
-  const createTask = async() => {
+  const createTask = async () => {
     const filesArr: string[] = [];
     const accounts = await web3.eth.getAccounts();
 
     files.forEach((file, idx, arr) => {
-      const storageRef = ref(storage, "tasksAddedFiles/" + file.name);
+      const storageRef = ref(
+        storage,
+        "tasksAddedFiles/" + `${shortid.generate()}${file.name}`
+      );
 
-      if(idx !== arr.length - 1) {
-        
+      if (idx !== arr.length - 1) {
         uploadBytes(storageRef, file).then((snapshot) => {
           getDownloadURL(snapshot.ref).then((downloadUrl) => {
+            console.log(downloadUrl);
             filesArr.push(downloadUrl);
-          })
-        })
+            // console.log(filesArr);
+          });
+        });
       } else {
         uploadBytes(storageRef, file).then((snapshot) => {
-          getDownloadURL(snapshot.ref).then(async(downloadUrl) => {
+          getDownloadURL(snapshot.ref).then(async (downloadUrl) => {
             filesArr.push(downloadUrl);
-            const task = await TaskFactory.methods.createTask(titleInput, descriptionInput, sphereSelect, filesArr, skillsArr).send({ from: accounts[0] });
-            console.log(task);
-          })
-        })
-      }
-    })
-    // console.log(filesArr);
+            console.log(downloadUrl);
+            // console.log("all", filesArr);
+            // console.log(files);
+            setTimeout(async () => {
+              console.log("creating txn");
+              console.log(filesArr);
 
-  }
+              try {
+                const task = await TaskFactory.methods
+                .createTask(
+                  titleInput,
+                  descriptionInput,
+                  sphereSelect,
+                  filesArr,
+                  skillsArr
+                )
+                .send({ from: user.address });
+              console.log(task);
+              } catch (error: any) {
+                console.log(error.code);
+                if(error.code === -32602) {
+                  console.log("You must be logged in metamask at correct account");
+                }
+              }
+            }, 2000);
+          });
+        });
+      }
+    });
+    // console.log(filesArr);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.titleStage}>
@@ -133,7 +162,9 @@ const createTask: FC = () => {
         </ul>
       </div>
 
-      <button type="button" onClick={createTask}>Create</button>
+      <button type="button" onClick={createTask}>
+        Create
+      </button>
     </div>
   );
 };
