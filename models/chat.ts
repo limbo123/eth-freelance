@@ -1,6 +1,6 @@
 import { DocumentData } from 'firebase/firestore';
 import { IDeveloper, IEmployer } from './user';
-interface IMessage {
+export interface IMessage {
     type: string,
     message: string,
     author: string,
