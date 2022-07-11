@@ -7,5 +7,6 @@ export interface ITask {
     worker: string,
     isCompleted: boolean,
     requestsKeys: string[] ,
-    address: string
+    address: string,
+    price: number
 }

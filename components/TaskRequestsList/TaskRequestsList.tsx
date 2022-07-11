@@ -76,10 +76,10 @@ const TaskRequestsList: FC<TaskRequestsListProps> = ({ task }) => {
     const chatsCollection = collection(firestore, "chats");
     const chatId = shortid.generate();
     await setDoc(doc(chatsCollection, chatId), {
+      id: chatId,
       members: [user.username, request.author.username],
       messages: [],
     });
-    Router.push(`/chats?chat_id=${chatId}`);
   };
 
   if (isLoading) {
@@ -100,7 +100,7 @@ const TaskRequestsList: FC<TaskRequestsListProps> = ({ task }) => {
           <ul className={styles.requests}>
             {requests.map((req) => {
               return (
-                <li>
+                <li key={req.author.address}>
                   <button
                     className={styles.respondReqBtn}
                     onClick={() => createChat(req)}

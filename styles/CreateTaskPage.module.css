@@ -2,7 +2,12 @@
     padding: 0 100px;
 }
 
-.titleStage input {
+.stage {
+    margin-bottom: 60px;
+    position: relative; 
+}
+
+.stage input {
     height: 30px;
     width: 40%;
 }
@@ -12,8 +17,62 @@
     padding: 0;
 }
 
+.controls {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+}
+
 .titleStage ul li {
     text-decoration: underline;
     list-style-type: none;
     cursor: pointer;
+}
+
+.descriptionField {
+    resize: none;
+    border-radius: 5px;
+    border: 1px solid #000;
+    width: 70%;
+    height: 50vh;
+    font-family: var(--font);
+}
+
+.addTFilesLabel {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.arrowBtn {
+    margin-right: 10px;
+    background: var(--root-color);
+    color: #fff;
+    border: none;
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    font-family: var(--root-font);
+    cursor: pointer;
+}
+
+.arrowBtn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.createTaskBtn {
+    margin-right: 10px;
+    background: var(--root-color);
+    color: #fff;
+    border: none;
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    font-family: var(--root-font);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

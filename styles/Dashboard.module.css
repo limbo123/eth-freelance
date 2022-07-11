@@ -101,6 +101,12 @@
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 30px;
+    width: 100%;
+}
+
+.TaskCardHeader {
+    display: flex;
+    justify-content: space-between;
 }
 
 .taskCard div {

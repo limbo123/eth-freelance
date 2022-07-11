@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import Link from 'next/link';
-import React, { FC } from 'react'
+import React, { FC, memo } from 'react'
 import { AiFillFolder, AiOutlineSearch } from 'react-icons/ai';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { ITask } from '../../models/task';
@@ -11,8 +11,9 @@ interface EmpDashboardProps {
     setTask: (param: ITask) => void,
 }
 
-const EmpDashboard: FC<EmpDashboardProps> = ({ tasks, setTask }) => {
+const EmpDashboard: FC<EmpDashboardProps> = memo(({ tasks, setTask }) => {
     const { user } = useAppSelector(state => state.authReducer);
+
   return (
     <div className={styles.container}>
           <div className={classNames(styles.greetings, styles.greetingsEmp)}>
@@ -75,6 +76,6 @@ const EmpDashboard: FC<EmpDashboardProps> = ({ tasks, setTask }) => {
           </div>
         </div>
   )
-}
+})
 
 export default EmpDashboard;

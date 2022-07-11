@@ -1,15 +1,20 @@
 import React, { FC, useEffect, useState } from "react";
 import { IChat, IMessage } from "../../models/chat";
 import styles from "./Chat.module.css";
-import { BiArrowBack } from "react-icons/bi";
+import { BiArrowBack, BiSend } from "react-icons/bi";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { firestore, storage } from "../../firebase";
 import shortid from "shortid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { BsFillPlayFill } from "react-icons/bs";
-import videojs from "video.js";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
+import { IoMdClose } from "react-icons/io";
+import { AiOutlineFile } from "react-icons/ai";
+import { HiDownload } from "react-icons/hi";
+import firebase from "firebase/compat/app";
+import moment from "moment";
+import sendMessageFn from "../../api/sendMessageFn";
 
 interface ChatProps {
   chat: IChat | undefined;
@@ -20,66 +25,72 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
   const { user } = useAppSelector((state) => state.authReducer);
   const [message, setMessage] = useState("");
   const [currentVideo, setCurrentVideo] = useState<IMessage>({} as IMessage);
-  // const [file, setFile] = useState<File>({} as File);
+
   useEffect(() => {
-    if (chat?.chat) {
+    if (chat?.chat.messages.lenght > 0) {
       (async () => {
-        const newMessages = [...chat.chat.messages];
+        const newMessages = [...chat?.chat.messages];
         if (
           newMessages[newMessages.length - 1].viewed.includes(user.username)
         ) {
           return;
         }
-        // console.log(newMessages);
-        // console.log(chat.chat.messages);
         newMessages[newMessages.length - 1].viewed.push(user.username);
-        await updateDoc(doc(firestore, "chats", chat.chat.id), {
+        await updateDoc(doc(firestore, "chats", chat?.chat.id), {
           messages: newMessages,
         });
       })();
     }
   }, [chat]);
 
-  const sendMessage = (files: FileList | null) => {
-    if (chat?.chat) {
-      const chatDoc = doc(firestore, "chats", chat.chat.id);
-      if (files) {
-        const imageRef = ref(
-          storage,
-          `chatFiles/${files[0].name}${shortid.generate()}`
-        );
-        uploadBytes(imageRef, files[0]).then((snapshot) => {
-          getDownloadURL(snapshot.ref).then((url) => {
-            updateDoc(chatDoc, {
-              messages: arrayUnion({
-                author: user.username,
-                type: files[0].type,
-                message: url,
-                viewed: [user.username],
-              }),
-            });
-          });
-        });
-        // console.log(files[0]);
-        return;
-      }
+  const getDate = (secs) => {
+    const date = new Date(0);
+    date.setSeconds(secs);
+    // console.log(moment(date));
+    return moment(date);
+  };
 
-      updateDoc(chatDoc, {
-        messages: arrayUnion({
-          author: user.username,
-          type: "text",
-          message,
-          viewed: [user.username],
-        }),
-      });
+  const sendMessage = async (files: FileList | null) => {
+    await sendMessageFn(files, user, message, chat?.chat.id);
+    setMessage("");
+  };
+
+  const downloadFile = (src: string, name: string) => {
+    const a = document.createElement("a");
+    a.href = src;
+    a.setAttribute("target", "_blank");
+    a.setAttribute("download", name);
+    a.click();
+  };
+
+  const closePlayer = (e: React.SyntheticEvent) => {
+    if (e.target === e.currentTarget) {
+      setCurrentVideo({} as IMessage);
     }
+  };
+
+  const isDatesDifferent = (currDate, prevDate) => {
+    return (
+      getDate(prevDate.createdAt.seconds).format("MM:DD:YYYY") !==
+      getDate(currDate.createdAt.seconds).format("MM:DD:YYYY")
+    );
   };
 
   return (
     <>
-      {currentVideo.message && <div className={styles.videoPlayer}>
-        <VideoPlayer currentVideo={currentVideo} />
-        </div>}
+      {currentVideo.message && (
+        <div className={styles.videoPlayer} onClick={(e) => closePlayer(e)}>
+          <button type="button" className={styles.closeVideoBtn}>
+            <IoMdClose
+              color="#000"
+              size={"1.5rem"}
+              onClick={() => setCurrentVideo({} as IMessage)}
+            />
+          </button>
+          <VideoPlayer currentVideo={currentVideo} />
+        </div>
+      )}
+
       {user.address && (
         <div className={styles.chat}>
           <div className={styles.topPanel}>
@@ -99,54 +110,112 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
           </div>
           <div className={styles.chatSection}>
             <ul>
-              {chat?.chat.messages.map((message: IMessage) => {
-                return (
-                  <li
-                    style={
-                      message.author === user.username
-                        ? {
-                            marginLeft: "auto",
-                            background: "#8707e8",
-                            color: "#fff",
+              {chat?.chat.messages.length > 0 && (
+                <p className={styles.date}>
+                  {getDate(chat?.chat.messages[0].createdAt.seconds).format(
+                    "D MMM YYYY"
+                  )}
+                </p>
+              )}
+              {chat?.chat.messages.length > 0 &&
+                chat?.chat.messages.map(
+                  (message: IMessage, idx: number, arr) => {
+                    return (
+                      <>
+                        {arr[idx - 1] &&
+                        isDatesDifferent(message, arr[idx - 1]) ? (
+                          <p className={styles.date}>
+                            {getDate(message.createdAt.seconds).format(
+                              "D MMM YYYY"
+                            )}
+                          </p>
+                        ) : null}
+                        <li
+                          style={
+                            message.author === user.username
+                              ? {
+                                  marginLeft: "auto",
+                                  background: "#8707e8",
+                                  color: "#fff",
+                                }
+                              : { background: "#d5aef2" }
                           }
-                        : { background: "#d5aef2" }
-                    }
-                    className={styles.message}
-                  >
-                    {message.type === "text" && message.message}
+                          className={styles.message}
+                        >
+                          {message.type === "text" && message.message}
 
-                    {message.type.slice(
-                      0,
-                      message.type.split("").indexOf("/")
-                    ) === "image" && (
-                      <img
-                        className={styles.imageMessage}
-                        src={message.message}
-                      ></img>
-                    )}
-                    {message.type.slice(
-                      0,
-                      message.type.split("").indexOf("/")
-                    ) === "video" && (
-                      <div
-                        className={styles.videoMessage}
-                        onClick={() => setCurrentVideo(message)}
-                      >
-                        <BsFillPlayFill
-                          className={styles.videoPlayIcon}
-                          size="5rem"
-                          color="#fff"
-                        />
-                        <video src={message.message}></video>
-                      </div>
-                    )}
-                  </li>
-                );
-              })}
+                          {message.type.slice(
+                            0,
+                            message.type.split("").indexOf("/")
+                          ) === "image" && (
+                            <a href={message.message} target="_blank">
+                              <img
+                                className={styles.imageMessage}
+                                src={message.message}
+                              ></img>
+                            </a>
+                          )}
+                          {message.type.slice(
+                            0,
+                            message.type.split("").indexOf("/")
+                          ) === "video" && (
+                            <div
+                              className={styles.videoMessage}
+                              onClick={() => setCurrentVideo(message)}
+                            >
+                              <BsFillPlayFill
+                                className={styles.videoPlayIcon}
+                                size="5rem"
+                                color="#fff"
+                              />
+                              <video src={message.message}></video>
+                            </div>
+                          )}
+                          {message.type.slice(
+                            0,
+                            message.type.split("").indexOf("/")
+                          ) === "application" && (
+                            <div
+                              className={styles.appMessage}
+                              onClick={() =>
+                                downloadFile(
+                                  message.message,
+                                  "file" +
+                                    message.type.slice(
+                                      message.type.split("").indexOf("/") + 1,
+                                      message.type.length
+                                    )
+                                )
+                              }
+                            >
+                              <HiDownload
+                                size={"1.5rem"}
+                                style={{ marginRight: 10 }}
+                              />
+                              <p>
+                                file.
+                                {message.type.slice(
+                                  message.type.split("").indexOf("/") + 1,
+                                  message.type.length
+                                )}
+                              </p>
+                            </div>
+                          )}
+
+                          <span>
+                            {getDate(message.createdAt.seconds).format(
+                              "hh:mm A"
+                            )}
+                          </span>
+                        </li>
+                      </>
+                    );
+                  }
+                )}
             </ul>
-            {chat?.chat.messages[chat.chat.messages.length - 1].viewed.includes(
-              chat.guest.username
-            ) &&
+            {chat?.chat?.messages[
+              chat.chat.messages.length - 1
+            ]?.viewed.includes(chat.guest.username) &&
               chat?.chat.messages[chat.chat.messages.length - 1].author ===
                 user.username && <p className={styles.isViewed}>Viewed</p>}
           </div>
@@ -154,17 +223,29 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
             <input
               type="text"
               value={message}
+              placeholder="Message..."
               onChange={(e) => setMessage(e.target.value)}
             />
-            <label htmlFor="send-file"></label>
-            <input
-              type="file"
-              id="send-file"
-              onChange={(e) => sendMessage(e.target.files)}
-            />
-            <button onClick={() => sendMessage(null)} type="button">
-              Send
-            </button>
+            <div>
+              <label htmlFor="send-file">
+                <AiOutlineFile color="#8025b1" size={"1.3rem"} />
+              </label>
+              <input
+                type="file"
+                id="send-file"
+                style={{ display: "none" }}
+                onChange={(e) => sendMessage(e.target.files)}
+              />
+              {message.length > 0 && (
+                <button
+                  className={styles.sendMsgBtn}
+                  onClick={() => sendMessage(null)}
+                  type="button"
+                >
+                  <BiSend color="#8025b1" size={"1.3rem"} />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}

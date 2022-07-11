@@ -81,7 +81,8 @@ contract Task {
             string memory,
             address payable,
             bool,
-            address payable[] memory
+            address payable[] memory,
+            uint
         )
     {
         return (
@@ -92,7 +93,8 @@ contract Task {
             taskSphere,
             worker,
             isCompleted,
-            requestsKeys
+            requestsKeys,
+            address(this).balance
         );
     }
 

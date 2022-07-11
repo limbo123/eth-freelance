@@ -1,12 +1,15 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import Link from "next/link";
 import { userInfo } from "os";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
+import { FaEthereum } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import web3 from "../../ethereum/web3";
 import { firestore } from "../../firebase";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { ITask } from "../../models/task";
 import { IEmployer } from "../../models/user";
+import CreateProposal from "../CreateProposal/createProposal";
 import TaskRequestsList from "../TaskRequestsList/TaskRequestsList";
 import styles from "./TaskModal.module.css";
 
@@ -19,6 +22,7 @@ const TaskModal: FC<TaskModalProps> = ({ task, closeTask }) => {
   const { user } = useAppSelector(state => state.authReducer);
   const [taskEmployer, setTaskEmployer] = useState<IEmployer>({} as IEmployer);
   const [isTextExtended, setIsTextExtended] = useState(false);
+  const [isRequestCreating, setIsRequestCreating] = useState(false);
   // console.log(task);
 
   const downloadFile = (file: string, index: number): void => {
@@ -32,7 +36,12 @@ const TaskModal: FC<TaskModalProps> = ({ task, closeTask }) => {
   const close = () => {
     closeTask();
     setIsTextExtended(false);
+    setIsRequestCreating(false);
   };
+
+  const showProposalCreating = useCallback(() => {
+    setIsRequestCreating(true);
+  }, [])
 
   useEffect(() => {
     (async () => {
@@ -43,7 +52,6 @@ const TaskModal: FC<TaskModalProps> = ({ task, closeTask }) => {
           empCollection,
           where("address", "==", task.manager)
         );
-        let emp;
         const snap = await getDocs(employerQuery);
         //  console.log(snap[0]);
         snap.forEach((doc) => {
@@ -59,6 +67,7 @@ const TaskModal: FC<TaskModalProps> = ({ task, closeTask }) => {
       </button>
       <h1>{task.title}</h1>
       <p className={styles.taskDate}>posted 02.05.2022 at 10:30</p>
+      <h1>{web3.utils.fromWei(task.price, "ether")} <FaEthereum /></h1>
       <div className={styles.info}>
         <div className={styles.taskInfo}>
           <p className={styles.taskDescription}>
@@ -95,11 +104,12 @@ const TaskModal: FC<TaskModalProps> = ({ task, closeTask }) => {
             </ul>
           </div>
           {user.type === "developers" ? (
-            <Link href={`/createProposal?task_address=${task.address}`}>
-              <button className={styles.proposalBtn} type="button">
+              <>
+              {!isRequestCreating && <button className={styles.proposalBtn} onClick={showProposalCreating} type="button">
                 Create Request
-              </button>
-            </Link>
+              </button>}
+              {isRequestCreating && <CreateProposal taskAddress={task.address}/>}
+              </>
           ) : (
             <>
             <h3>Requests</h3>

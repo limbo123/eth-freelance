@@ -4,7 +4,8 @@ export interface IMessage {
     type: string,
     message: string,
     author: string,
-    viewed: string[]
+    viewed: string[],
+    createdAt: any
 }
 
 export interface IChat {

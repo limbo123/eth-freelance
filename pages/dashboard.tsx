@@ -1,24 +1,17 @@
 import React, { FC, useEffect, useState } from "react";
 import { useAppSelector } from "../hooks/useAppSelector";
-import styles from "../styles/Dashboard.module.css";
-import { AiFillFolder, AiOutlineSearch } from "react-icons/ai";
-import { IoMdArrowDropdown } from "react-icons/io";
-import Link from "next/link";
-import TaskFactory from "../ethereum/TaskFactory";
-import web3 from "../ethereum/web3";
-import taskContractInfo from "../ethereum/build/Task.json";
-import classNames from "classnames";
 import { ITask } from "../models/task";
 import { animated, useSpring } from "react-spring";
 import TaskModal from "../components/TaskModal/TaskModal";
 import DevDashboard from "../components/DevDashboard/DevDashboard";
 import EmpDashboard from "../components/EmpDashboard/EmpDashboard";
 import Router from "next/router";
+import getTasks from "../api/getTasks";
 
 const Dashboard: FC = () => {
   const { user } = useAppSelector((state) => state.authReducer);
   const [searchWorkInput, setSearchWorkInput] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<ITask[]>([]);
   const [isTaskShowing, setIsTaskShowing] = useState(false);
   const [activeTask, setActiveTask] = useState<ITask>({} as ITask);
 
@@ -31,71 +24,35 @@ const Dashboard: FC = () => {
   const setTask = (task: ITask) => {
     setActiveTask(task);
     setIsTaskShowing(true);
-    Router.replace(`/dashboard?task_address=${task.address}`,  undefined, { scroll: false });
+    Router.replace(`/dashboard?task_address=${task.address}`, undefined, {
+      scroll: false,
+    });
   };
 
   const closeTask = () => {
     setIsTaskShowing(false);
     Router.replace("/dashboard", undefined, { scroll: false });
-  }
+  };
 
   useEffect(() => {
-    const allTasks: any = [];
-    (async () => {
-      const allTasksAddresses = await TaskFactory.methods.getAllTasks().call();
-      allTasksAddresses.map(async (address, idx, arr) => {
-        const taskContract = await new web3.eth.Contract(
-          taskContractInfo.abi,
-          address
-        );
-        const task = await taskContract.methods.getInfo().call();
-        // console.log(task);
-        if (user.type === "developers") {
-          if (task["4"] === user.sphere && +task["5"] === 0) {
-            const taskObj: ITask = {
-              manager: task["0"],
-              title: task["1"],
-              files: task["2"],
-              description: task["3"],
-              sphere: task["4"],
-              worker: task["5"],
-              isCompleted: task["6"],
-              requestsKeys: task["7"],
-              address: address,
-            };
-            allTasks.push(taskObj);
-          }
-        } else {
-          if (task["0"] === user.address) {
-            const taskObj: ITask = {
-              manager: task["0"],
-              title: task["1"],
-              files: task["2"],
-              description: task["3"],
-              sphere: task["4"],
-              worker: task["5"],
-              isCompleted: task["6"],
-              requestsKeys: task["7"],
-              address: address,
-            };
-            allTasks.push(taskObj);
-          }
-        }
-        if (idx === arr.length - 1) {
-          setResults(allTasks);
-        }
-      });
-    })();
+    if (user.address) {
+      (async () => {
+        const res: ITask[] = (await getTasks(user)) as ITask[];
+        setResults(res);
+      })();
+    }
   }, [user]);
 
   useEffect(() => {
-    if(Router.query.task_address && results.length > 0) {
-      const task = results.find((task: ITask) => task.address === Router.query.task_address)
-      if(task) {
-        setTask(task)
+    if (Router.query.task_address && results.length > 0) {
+      const task = results.find(
+        (task: ITask) => task.address === Router.query.task_address
+      );
+      if (task) {
+        setTask(task);
       }
     }
-  }, [results])
+  }, [results]);
   return (
     <>
       <animated.div
@@ -106,12 +63,10 @@ const Dashboard: FC = () => {
         }
       >
         {activeTask && activeTask.address && (
-          <TaskModal
-            task={activeTask}
-            closeTask={closeTask}
-          />
+          <TaskModal task={activeTask} closeTask={closeTask} />
         )}
       </animated.div>
+
       {user.type && user.type === "developers" && (
         <DevDashboard
           tasks={results}
@@ -120,6 +75,7 @@ const Dashboard: FC = () => {
           setTask={setTask}
         />
       )}
+
       {user.type && user.type === "employers" && (
         <EmpDashboard tasks={results} setTask={setTask} />
       )}

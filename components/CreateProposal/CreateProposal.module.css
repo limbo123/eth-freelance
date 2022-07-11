@@ -1,0 +1,17 @@
+.createProposal {
+    display: flex;
+    flex-direction: column;
+}
+
+.createProposal button {
+    width: 150px;
+    margin-top: 10px;
+}
+
+.descInput {
+    border-radius: 5px;
+    width: 100%;
+    height: 100px;
+    resize: none;
+    font-family: var(--font);
+}

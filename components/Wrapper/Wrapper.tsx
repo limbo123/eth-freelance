@@ -24,7 +24,8 @@ const Wrapper = ({ children }) => {
   const chatStyles = useSpring({
     position: "fixed",
     top: "0",
-    right: isChatsOpened ? "0" : "-40vw",
+    right: isChatsOpened ? "0" : "-100vw",
+    zIndex: 1
   });
 
   return (
