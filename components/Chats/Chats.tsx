@@ -49,6 +49,7 @@ const Chats: FC<ChatsProps> = ({ close }) => {
       return chat;
     });
     setUserChats(newChats);
+    console.log("chats");
   }, [chats]);
 
   const setChat = (chatId) => {

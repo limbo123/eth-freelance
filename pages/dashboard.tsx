@@ -5,7 +5,7 @@ import { animated, useSpring } from "react-spring";
 import TaskModal from "../components/TaskModal/TaskModal";
 import DevDashboard from "../components/DevDashboard/DevDashboard";
 import EmpDashboard from "../components/EmpDashboard/EmpDashboard";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import getTasks from "../api/getTasks";
 
 const Dashboard: FC = () => {
@@ -14,6 +14,7 @@ const Dashboard: FC = () => {
   const [results, setResults] = useState<ITask[]>([]);
   const [isTaskShowing, setIsTaskShowing] = useState(false);
   const [activeTask, setActiveTask] = useState<ITask>({} as ITask);
+  const router = useRouter();
 
   const TaskStyles = useSpring({
     position: "fixed",
@@ -52,7 +53,7 @@ const Dashboard: FC = () => {
         setTask(task);
       }
     }
-  }, [results]);
+  }, [results, router.query.task_address]);
   return (
     <>
       <animated.div

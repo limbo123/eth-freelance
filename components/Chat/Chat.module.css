@@ -16,6 +16,29 @@
     padding: 0 20px;
 }
 
+.chatTask {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #b0b0b0;
+}
+
+.chatTask button {
+    background: #3f1a95;
+    color: #fff;
+    width: 150px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    font-family: var(--root-font);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+}
+
 .closeChatBtn {
     background: none;
     border: none;
@@ -35,7 +58,7 @@
     width: 100%;
     padding: 30px;
     overflow-y: scroll;
-    height: 79%;
+    height: 69%;
 }
 
 .chatSection ul {
@@ -49,60 +72,6 @@
     text-align: center;
     font-size: 14px;
     color: #8b8b8b;
-}
-
-.message {
-    color: rgb(0, 0, 0);
-    list-style-type: none;
-    width: fit-content;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-}
-
-.message span {
-    font-size: 10px;
-    margin-top: 5px;
-}
-
-.imageMessage {
-    width: 200px;
-}
-
-.videoMessage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.videoPlayIcon {
-    position: absolute;
-    z-index: 1;
-}
-
-.videoMessage video {
-    width: 200px;
-    z-index: 0;
-}
-
-.appMessage {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-
-.appMessage p {
-    margin: 0;
-}
-
-.isViewed {
-    width: 100%;
-    text-align: right;
-    color: #b0b0b0;
-    font-size: 14px;
 }
 
 .messageForm {

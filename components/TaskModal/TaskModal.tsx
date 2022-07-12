@@ -9,7 +9,7 @@ import { firestore } from "../../firebase";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { ITask } from "../../models/task";
 import { IEmployer } from "../../models/user";
-import CreateProposal from "../CreateProposal/createProposal";
+import CreateProposal from "../CreateProposal/CreateProposal";
 import TaskRequestsList from "../TaskRequestsList/TaskRequestsList";
 import styles from "./TaskModal.module.css";
 

@@ -18,7 +18,6 @@ import styles from "./TaskRequestsList.module.css";
 import { AiFillMessage } from "react-icons/ai";
 import shortid from "shortid";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import Router from "next/router";
 
 interface TaskRequestsListProps {
   task: ITask;
@@ -72,13 +71,14 @@ const TaskRequestsList: FC<TaskRequestsListProps> = ({ task }) => {
   }, [task]);
 
   const createChat = async (request: IRequest) => {
-    console.log("creating");
+    console.log(request);
     const chatsCollection = collection(firestore, "chats");
     const chatId = shortid.generate();
     await setDoc(doc(chatsCollection, chatId), {
       id: chatId,
       members: [user.username, request.author.username],
       messages: [],
+      taskAddress: task.address
     });
   };
 
@@ -101,12 +101,13 @@ const TaskRequestsList: FC<TaskRequestsListProps> = ({ task }) => {
             {requests.map((req) => {
               return (
                 <li key={req.author.address}>
-                  <button
+                  {+task.worker === 0 ?<button
                     className={styles.respondReqBtn}
                     onClick={() => createChat(req)}
                   >
                     Respond <AiFillMessage style={{ marginLeft: 10 }} />
-                  </button>
+                  </button> : <p style={{ position: "absolute", right: 20 }}>Task is already in progress</p>}
+                  
                   <div className={styles.authorInfo}>
                     <img src={req.author.profilePhoto} />
                     <div>

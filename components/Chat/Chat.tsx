@@ -3,18 +3,17 @@ import { IChat, IMessage } from "../../models/chat";
 import styles from "./Chat.module.css";
 import { BiArrowBack, BiSend } from "react-icons/bi";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { firestore, storage } from "../../firebase";
-import shortid from "shortid";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { BsFillPlayFill } from "react-icons/bs";
+import { doc, updateDoc } from "firebase/firestore";
+import { firestore } from "../../firebase";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineFile } from "react-icons/ai";
-import { HiDownload } from "react-icons/hi";
-import firebase from "firebase/compat/app";
 import moment from "moment";
 import sendMessageFn from "../../api/sendMessageFn";
+import taskJson from "../../ethereum/build/Task.json";
+import web3 from "../../ethereum/web3";
+import Link from "next/link";
+import ChatMessage from "../ChatMessage/ChatMessage";
 
 interface ChatProps {
   chat: IChat | undefined;
@@ -25,10 +24,26 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
   const { user } = useAppSelector((state) => state.authReducer);
   const [message, setMessage] = useState("");
   const [currentVideo, setCurrentVideo] = useState<IMessage>({} as IMessage);
+  const [taskContract, setTaskContract] = useState<any>({});
+  const [taskAddress, setTaskAddress] = useState("");
+  const [taskInfo, setTaskInfo] = useState("");
+
+  // console.log(taskInfo);
 
   useEffect(() => {
-    if (chat?.chat.messages.lenght > 0) {
-      (async () => {
+    (async () => {
+      if (chat?.chat) {
+        const contract = await new web3.eth.Contract(
+          taskJson.abi,
+          chat?.chat.taskAddress
+        );
+        setTaskContract(contract);
+        const info = await contract.methods.getInfo().call();
+        setTaskAddress(contract.options.address);
+        setTaskInfo(info);
+      }
+
+      if (chat?.chat.messages.lenght > 0) {
         const newMessages = [...chat?.chat.messages];
         if (
           newMessages[newMessages.length - 1].viewed.includes(user.username)
@@ -39,14 +54,13 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
         await updateDoc(doc(firestore, "chats", chat?.chat.id), {
           messages: newMessages,
         });
-      })();
-    }
+      }
+    })();
   }, [chat]);
 
   const getDate = (secs) => {
     const date = new Date(0);
     date.setSeconds(secs);
-    // console.log(moment(date));
     return moment(date);
   };
 
@@ -75,6 +89,10 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
       getDate(currDate.createdAt.seconds).format("MM:DD:YYYY")
     );
   };
+
+  const startWork = async() => {
+    await taskContract.methods.startTask(chat?.guest.address).send({ from: user.address });
+  }
 
   return (
     <>
@@ -108,6 +126,16 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
             />
             <p>{chat?.guest.username}</p>
           </div>
+
+          <div className={styles.chatTask}>
+            <Link href={`dashboard/?task_address=${taskAddress}`}>
+              <p>"{taskInfo["1"]}" task</p>
+            </Link>
+            {user.type === "employers" && +taskInfo["5"] === 0 && (
+              <button type="button" onClick={startWork}>Start work with {chat?.guest.username}</button>
+            )}
+          </div>
+
           <div className={styles.chatSection}>
             <ul>
               {chat?.chat.messages.length > 0 && (
@@ -121,94 +149,16 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
                 chat?.chat.messages.map(
                   (message: IMessage, idx: number, arr) => {
                     return (
-                      <>
-                        {arr[idx - 1] &&
-                        isDatesDifferent(message, arr[idx - 1]) ? (
-                          <p className={styles.date}>
-                            {getDate(message.createdAt.seconds).format(
-                              "D MMM YYYY"
-                            )}
-                          </p>
-                        ) : null}
-                        <li
-                          style={
-                            message.author === user.username
-                              ? {
-                                  marginLeft: "auto",
-                                  background: "#8707e8",
-                                  color: "#fff",
-                                }
-                              : { background: "#d5aef2" }
-                          }
-                          className={styles.message}
-                        >
-                          {message.type === "text" && message.message}
-
-                          {message.type.slice(
-                            0,
-                            message.type.split("").indexOf("/")
-                          ) === "image" && (
-                            <a href={message.message} target="_blank">
-                              <img
-                                className={styles.imageMessage}
-                                src={message.message}
-                              ></img>
-                            </a>
-                          )}
-                          {message.type.slice(
-                            0,
-                            message.type.split("").indexOf("/")
-                          ) === "video" && (
-                            <div
-                              className={styles.videoMessage}
-                              onClick={() => setCurrentVideo(message)}
-                            >
-                              <BsFillPlayFill
-                                className={styles.videoPlayIcon}
-                                size="5rem"
-                                color="#fff"
-                              />
-                              <video src={message.message}></video>
-                            </div>
-                          )}
-                          {message.type.slice(
-                            0,
-                            message.type.split("").indexOf("/")
-                          ) === "application" && (
-                            <div
-                              className={styles.appMessage}
-                              onClick={() =>
-                                downloadFile(
-                                  message.message,
-                                  "file" +
-                                    message.type.slice(
-                                      message.type.split("").indexOf("/") + 1,
-                                      message.type.length
-                                    )
-                                )
-                              }
-                            >
-                              <HiDownload
-                                size={"1.5rem"}
-                                style={{ marginRight: 10 }}
-                              />
-                              <p>
-                                file.
-                                {message.type.slice(
-                                  message.type.split("").indexOf("/") + 1,
-                                  message.type.length
-                                )}
-                              </p>
-                            </div>
-                          )}
-
-                          <span>
-                            {getDate(message.createdAt.seconds).format(
-                              "hh:mm A"
-                            )}
-                          </span>
-                        </li>
-                      </>
+                      <ChatMessage
+                        arr={arr}
+                        idx={idx}
+                        message={message}
+                        getDate={getDate}
+                        isDatesDifferent={isDatesDifferent}
+                        user={user}
+                        downloadFile={downloadFile}
+                        setCurrentVideo={setCurrentVideo}
+                      />
                     );
                   }
                 )}

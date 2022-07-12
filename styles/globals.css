@@ -8,12 +8,12 @@ body {
 }
 
 ::selection {
-  background: var(--root-color);
+  background: #8707e8;
   color: #fff;
 }
 
 :root {
-  --root-color: #8025b1;
+  --root-color: #8400cb;
   --root-font: 'Josefin Sans', sans-serif;
 }
 
