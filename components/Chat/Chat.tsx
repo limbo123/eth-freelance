@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import { IChat, IMessage } from "../../models/chat";
 import styles from "./Chat.module.css";
 import { BiArrowBack, BiSend } from "react-icons/bi";
@@ -28,7 +28,7 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
   const [taskAddress, setTaskAddress] = useState("");
   const [taskInfo, setTaskInfo] = useState("");
 
-  // console.log(taskInfo);
+  const guestImgUrl = useMemo(() => chat?.guest.profilePhoto, [chat?.guest.profilePhoto]);
 
   useEffect(() => {
     (async () => {
@@ -90,9 +90,11 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
     );
   };
 
-  const startWork = async() => {
-    await taskContract.methods.startTask(chat?.guest.address).send({ from: user.address });
-  }
+  const startWork = async () => {
+    await taskContract.methods
+      .startTask(chat?.guest.address)
+      .send({ from: user.address });
+  };
 
   return (
     <>
@@ -120,7 +122,7 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
               <BiArrowBack size={"1.5rem"} />
             </button>
             <img
-              src={chat?.guest.profilePhoto as any}
+              src={guestImgUrl as string}
               className={styles.guestAvatar}
               alt=""
             />
@@ -132,7 +134,9 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
               <p>"{taskInfo["1"]}" task</p>
             </Link>
             {user.type === "employers" && +taskInfo["5"] === 0 && (
-              <button type="button" onClick={startWork}>Start work with {chat?.guest.username}</button>
+              <button type="button" onClick={startWork}>
+                Start work with {chat?.guest.username}
+              </button>
             )}
           </div>
 

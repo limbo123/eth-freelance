@@ -8,25 +8,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import classNames from "classnames";
 import { AiOutlinePlus } from "react-icons/ai";
+import Image from "next/image";
 
-// interface ArrowProps {
-//   className:
-// }
 
-const StepArrow: FC<any> = ({ className, style, onClick, text }) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={styles.arrow}
-      style={text === "Next" ? { right: 0 } : { left: 0 }}
-    >
-      {text}
-    </button>
-  );
-};
-
-const createTask: FC = () => {
+const CreateTask: FC = () => {
   // const [stage, setStage] = useState(0);
   const { user } = useAppSelector((state) => state.authReducer);
   const [titleInput, setTitleInput] = useState("");
@@ -217,7 +202,6 @@ const createTask: FC = () => {
 
         <div className={classNames(styles.filesStage, styles.stage)}>
           <h1>Pin a files (optional)</h1>
-          <img src="" id="image" alt="" />
           <label htmlFor="task-files" className={styles.addTFilesLabel}><AiOutlinePlus color="#8025b1" size={"2rem"} />
           Add
           </label>
@@ -225,7 +209,7 @@ const createTask: FC = () => {
           <ul>
             {files.map((file) => {
               return (
-                <li onClick={() => downloadFile(file)}>
+                <li key={file.name} onClick={() => downloadFile(file)}>
                   <a>{file.name}</a>
                 </li>
               );
@@ -246,4 +230,4 @@ const createTask: FC = () => {
   );
 };
 
-export default createTask;
+export default CreateTask;
