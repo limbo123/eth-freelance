@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import styles from "./Wrapper.module.css";
 import Navbar from "../Navbar/Navbar";
 import { BsChatLeftText } from "react-icons/bs";
-// import { animated, useSpring } from "react-spring";
+import { animated, useSpring } from "@react-spring/web";
 import Chats from "../Chats/Chats";
 import { useAppSelector } from "../../hooks/useAppSelector";
 
@@ -21,21 +21,21 @@ const Wrapper = ({ children }) => {
     Router.push("/");
   }, []);
 
-  // const chatStyles = useSpring({
-  //   position: "fixed",
-  //   top: "0",
-  //   right: isChatsOpened ? "0" : "-100vw",
-  //   zIndex: 1
-  // });
+  const chatStyles = useSpring({
+    position: "fixed",
+    top: "0",
+    right: isChatsOpened ? "0" : "-100vw",
+    zIndex: 1
+  });
 
   return (
     <>
       <Navbar />
-      {/* {user.address && (
+      {user.address && (
         <animated.div style={{ ...chatStyles } as any}>
           <Chats close={() => setIsChatsOpened(false)}/>
         </animated.div>
-      )} */}
+      )}
       <button
         type="button"
         style={isChatsOpened ? {display: "none"} : {}}

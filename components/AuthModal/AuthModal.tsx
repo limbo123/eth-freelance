@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import LoginForm from "../LoginForm/LoginForm";
 import RegisterForm from "../RegisterForm/RegisterForm";
 import styles from "./AuthModal.module.css";
-// import { animated, useSpring } from "react-spring";
+import { animated, useSpring } from "@react-spring/web";
 import { closeAuthModal } from "../../redux/auth/authSlice"
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 
@@ -14,16 +14,16 @@ const AuthModal: FC<AuthModalProps> = ({ register }) => {
   const dispatch = useAppDispatch();
   const [isRegistration, setIsRegistration] = useState(register);
 
-  // const loginStyles = useSpring({
-  //   marginLeft: isRegistration ? -1000 : 0,
-  //   // display: isRegistration ? "none" : "block"
-  // });
+  const loginStyles = useSpring({
+    marginLeft: isRegistration ? -1000 : 0,
+    // display: isRegistration ? "none" : "block"
+  });
 
-  // const registerStyles = useSpring({
-  //   marginLeft: isRegistration ? 0 : 1000,
-  //   marginTop: -180,
-  //   // position: isRegistration ? "static" : "absolute"
-  // });
+  const registerStyles = useSpring({
+    marginLeft: isRegistration ? 0 : 1000,
+    marginTop: -180,
+    // position: isRegistration ? "static" : "absolute"
+  });
 
   const closeModal = (e: React.SyntheticEvent) => {
     if (e.target === e.currentTarget) {
@@ -38,7 +38,7 @@ const AuthModal: FC<AuthModalProps> = ({ register }) => {
         <li style={!isRegistration ? {borderBottom: "3px solid var(--root-color)"} : undefined} onClick={() => setIsRegistration(false)}>Login</li>
         <li style={isRegistration ? {borderBottom: "3px solid var(--root-color)"}: undefined} onClick={() => setIsRegistration(true)}>Register</li>
       </ul>
-        {/* <animated.form
+        <animated.form
           id="loginForm"
           style={{
             ...loginStyles, 
@@ -53,7 +53,7 @@ const AuthModal: FC<AuthModalProps> = ({ register }) => {
           }}
         >
           <RegisterForm />
-        </animated.form> */}
+        </animated.form>
       </div>
     </div>
   );
