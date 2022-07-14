@@ -12,7 +12,6 @@ import Image from "next/image";
 
 
 const CreateTask: FC = () => {
-  // const [stage, setStage] = useState(0);
   const { user } = useAppSelector((state) => state.authReducer);
   const [titleInput, setTitleInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
