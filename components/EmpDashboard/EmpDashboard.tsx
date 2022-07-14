@@ -11,7 +11,7 @@ interface EmpDashboardProps {
     setTask: (param: ITask) => void,
 }
 
-const EmpDashboard: FC<EmpDashboardProps> = memo(({ tasks, setTask }) => {
+const EmpDashboard: FC<EmpDashboardProps> = ({ tasks, setTask }) => {
     const { user } = useAppSelector(state => state.authReducer);
 
   return (
@@ -76,6 +76,6 @@ const EmpDashboard: FC<EmpDashboardProps> = memo(({ tasks, setTask }) => {
           </div>
         </div>
   )
-})
+}
 
 export default EmpDashboard;

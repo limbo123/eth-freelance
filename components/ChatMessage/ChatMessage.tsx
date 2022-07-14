@@ -16,7 +16,7 @@ interface ChatMessageProps {
   downloadFile: (src: string, name: string) => void;
 }
 
-const ChatMessage: FC<ChatMessageProps> = memo(
+const ChatMessage: FC<ChatMessageProps> = 
   ({
     message,
     idx,
@@ -99,6 +99,6 @@ const ChatMessage: FC<ChatMessageProps> = memo(
       </>
     );
   }
-);
+;
 
 export default ChatMessage;

@@ -98,7 +98,7 @@ const TaskModal: FC<TaskModalProps> = ({ task, closeTask }) => {
             <ul className={styles.taskFileList}>
               {task.files.map((file, idx) => {
                 return (
-                  <li onClick={() => downloadFile(file, idx)}>file_{idx}</li>
+                  <li key={file} onClick={() => downloadFile(file, idx)}>file_{idx}</li>
                 );
               })}
             </ul>

@@ -129,7 +129,7 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
 
           <div className={styles.chatTask}>
             <Link href={`dashboard/?task_address=${taskAddress}`}>
-              <p>"{taskInfo["1"]}" task</p>
+              <p>{taskInfo["1"]} task</p>
             </Link>
             {user.type === "employers" && +taskInfo["5"] === 0 && (
               <button type="button" onClick={startWork}>Start work with {chat?.guest.username}</button>
@@ -158,6 +158,7 @@ const Chat: FC<ChatProps> = ({ chat, closeChat }) => {
                         user={user}
                         downloadFile={downloadFile}
                         setCurrentVideo={setCurrentVideo}
+                        key={message.message}
                       />
                     );
                   }

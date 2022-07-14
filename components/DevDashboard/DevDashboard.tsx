@@ -15,7 +15,7 @@ interface DevDashboardProps {
   setSearchWorkInput: (param: string) => void;
 }
 
-const DevDashboard: FC<DevDashboardProps> = memo(
+const DevDashboard: FC<DevDashboardProps> = 
   ({ tasks, setTask, searchWorkInput, setSearchWorkInput }) => {
     const { user } = useAppSelector((state) => state.authReducer);
 
@@ -78,7 +78,6 @@ const DevDashboard: FC<DevDashboardProps> = memo(
         </div>
       </div>
     );
-  }
-);
+  };
 
 export default DevDashboard;
