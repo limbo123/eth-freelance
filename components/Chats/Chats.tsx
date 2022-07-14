@@ -2,7 +2,7 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import React, { FC, useEffect, useState } from "react";
-import { animated, useSpring } from "react-spring";
+// import { animated, useSpring } from "react-spring";
 import { firestore } from "../../firebase";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { IChat } from "../../models/chat";
@@ -27,12 +27,12 @@ const Chats: FC<ChatsProps> = ({ close }) => {
       .where("members", "array-contains", user.username) as any
   );
 
-  const chatStyles = useSpring({
-    position: "fixed",
-    top: "0",
-    right: activeChatId ? "0" : "-100vw",
-    zIndex: 1,
-  });
+  // const chatStyles = useSpring({
+  //   position: "fixed",
+  //   top: "0",
+  //   right: activeChatId ? "0" : "-100vw",
+  //   zIndex: 1,
+  // });
 
   useEffect(() => {
     if (!loading) {
@@ -77,12 +77,12 @@ const Chats: FC<ChatsProps> = ({ close }) => {
           );
         })}
       </ul>
-      <animated.div style={{ ...chatStyles } as any}>
+      {/* <animated.div style={{ ...chatStyles } as any}>
         <Chat
           chat={userChats.find((el) => el.chat.id === activeChatId)}
           closeChat={() => setActiveChatId("")}
         />
-      </animated.div>
+      </animated.div> */}
     </div>
   );
 };

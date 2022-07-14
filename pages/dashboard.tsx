@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { ITask } from "../models/task";
-import { animated, useSpring } from "react-spring";
+// import { animated, useSpring } from "react-spring";
 import TaskModal from "../components/TaskModal/TaskModal";
 import DevDashboard from "../components/DevDashboard/DevDashboard";
 import EmpDashboard from "../components/EmpDashboard/EmpDashboard";
@@ -16,11 +16,11 @@ const Dashboard: FC = () => {
   const [activeTask, setActiveTask] = useState<ITask>({} as ITask);
   const router = useRouter();
 
-  const TaskStyles = useSpring({
-    position: "fixed",
-    margin: "auto",
-    bottom: isTaskShowing ? "0" : "-100vh",
-  });
+  // const TaskStyles = useSpring({
+  //   position: "fixed",
+  //   margin: "auto",
+  //   bottom: isTaskShowing ? "0" : "-100vh",
+  // });
 
   const setTask = (task: ITask) => {
     setActiveTask(task);
@@ -56,7 +56,7 @@ const Dashboard: FC = () => {
   }, [results, router.query.task_address]);
   return (
     <>
-      <animated.div
+      {/* <animated.div
         style={
           {
             ...TaskStyles,
@@ -66,7 +66,7 @@ const Dashboard: FC = () => {
         {activeTask && activeTask.address && (
           <TaskModal task={activeTask} closeTask={closeTask} />
         )}
-      </animated.div>
+      </animated.div> */}
 
       {user.type && user.type === "developers" && (
         <DevDashboard
