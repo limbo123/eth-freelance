@@ -4,7 +4,6 @@ import { userInfo } from "os";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { FaEthereum } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { FiSettings } from "react-icons/fi"
 import web3 from "../../ethereum/web3";
 import { firestore } from "../../firebase";
 import { useAppSelector } from "../../hooks/useAppSelector";
@@ -66,10 +65,7 @@ const TaskModal: FC<TaskModalProps> = ({ task, closeTask }) => {
       <button className={styles.closeTaskBtn} onClick={close}>
         <IoMdClose size={"1.3rem"} />
       </button>
-      <h1 className={styles.taskTitle}>{task.title} {+task.worker !== 0 && <>
-        <FiSettings className={styles.inProgressIcon} color="#a3a8a5"/>
-        <span>in Progress...</span>
-      </>}</h1> 
+      <h1>{task.title}</h1>
       <p className={styles.taskDate}>posted 02.05.2022 at 10:30</p>
       <h1>{web3.utils.fromWei(task.price, "ether")} <FaEthereum /></h1>
       <div className={styles.info}>

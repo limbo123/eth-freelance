@@ -2,9 +2,10 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { store } from "../redux/store";
 import { Provider } from 'react-redux';
-import dynamic from 'next/dynamic';
+import Wrapper from '../components/Wrapper/Wrapper';
+import addressVerification from "../ethereum/AddressVerification";
+import { useEffect } from 'react';
 
-const Wrapper = dynamic(() => import('../components/Wrapper/Wrapper'), { ssr: false });
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
