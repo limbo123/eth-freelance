@@ -50,7 +50,7 @@ const ChatMessage: FC<ChatMessageProps> =
 
           {message.type.slice(0, message.type.split("").indexOf("/")) ===
             "image" && (
-            <a href={message.message} target="_blank">
+            <a href={message.message} target="_blank" rel="noreferrer">
               <img className={styles.imageMessage} src={message.message}></img>
             </a>
           )}
