@@ -6,7 +6,6 @@ import { ITask } from "../models/task";
 import { IEmployer } from "../models/user";
 
 export default async (user: IDeveloper | IEmployer) => {
-    // console.log(user);
   const allTasks: any = [];
 
   const allTasksAddresses = await TaskFactory.methods.getAllTasks().call();
@@ -54,7 +53,6 @@ export default async (user: IDeveloper | IEmployer) => {
               }
             }
             if (idx === arr.length - 1) {
-                console.log("before", allTasks);
                 res(allTasks);
             }
           });

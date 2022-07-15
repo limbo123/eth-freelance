@@ -1,9 +1,7 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
-import { auth, firestore } from "../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { HiLogin } from "react-icons/hi";
-import AuthModal from "../AuthModal/AuthModal";
+import { firestore } from "../../firebase";
+import AuthModal from "../AuthComponents/AuthModal/AuthModal";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import {
@@ -14,9 +12,9 @@ import {
 } from "../../redux/auth/authSlice";
 import { useCookies } from "react-cookie";
 import { doc, getDoc } from "firebase/firestore";
-import { Skeleton } from "@mui/material";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import {HiLogout} from "@react-icons/all-files/hi/HiLogout";
+
 
 const Navbar = () => {
   const { isAuthModalOpened, user, startLoading } = useAppSelector(
@@ -79,13 +77,7 @@ const Navbar = () => {
         <h3 className={styles.Logo} onClick={() => router.push("/")}>Go Freelance</h3>
         {isLoading ? (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Skeleton
-              variant="text"
-              style={{ marginRight: 10 }}
-              width={120}
-              height={17}
-            />
-            <Skeleton variant="circular" width={40} height={40} />
+            ...
           </div>
         ) : (
           <>
@@ -109,7 +101,7 @@ const Navbar = () => {
                 className={styles.LoginBtn}
               >
                 <p>Sign up</p>{" "}
-                <HiLogin style={{ marginLeft: 7 }} size="1.2rem" />
+                <HiLogout style={{ marginLeft: 7 }} size="1.2rem" />
               </button>
             )}
           </>

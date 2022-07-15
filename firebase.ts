@@ -1,6 +1,5 @@
 import firebase from "firebase/compat/app"
 import "firebase/compat/storage";
-import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
 firebase.initializeApp({
@@ -12,6 +11,5 @@ firebase.initializeApp({
     appId: "1:760513600919:web:34b43345e16462189178d2"
   });
  
-  export const auth = firebase.auth();
   export const storage = firebase.storage();
   export const firestore = firebase.firestore()

@@ -4,9 +4,11 @@ import React, { FC, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import styles from "./Wrapper.module.css";
 import Navbar from "../Navbar/Navbar";
-import { BsChatLeftText } from "react-icons/bs";
+// import { BsChatLeftText } from "react-icons/bs";
+import {BsChatFill} from "@react-icons/all-files/bs/BsChatFill"
+
 import { animated, useSpring } from "@react-spring/web";
-import Chats from "../Chats/Chats";
+import Chats from "../ChatComponents/Chats/Chats";
 import { useAppSelector } from "../../hooks/useAppSelector";
 
 const Wrapper = ({ children }) => {
@@ -42,7 +44,7 @@ const Wrapper = ({ children }) => {
         onClick={() => setIsChatsOpened(!isChatsOpened)}
         className={styles.chatsBtn}
       >
-        <BsChatLeftText color="#fff" size={"1.5rem"} />
+        <BsChatFill color="#fff" size={"1.5rem"} />
       </button>
       {children}
     </>
