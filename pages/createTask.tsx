@@ -16,7 +16,7 @@ const CreateTask: FC = () => {
   const [titleInput, setTitleInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [sphereSelect, setSphereSelect] = useState("Choose your sphere");
-  const [skillsArr, setSkillsArr] = useState<string[]>([]);
+  const [skills, setSkills] = useState<string[]>([]);
   const [priceInput, setPriceInput] = useState("");
   const [skillsInput, setSkillsInput] = useState("");
 
@@ -57,7 +57,7 @@ const CreateTask: FC = () => {
       titleInput,
       descriptionInput,
       sphereSelect,
-      skillsArr,
+      skillsInput.split(" "),
       priceInput,
       user.address
     );
@@ -156,7 +156,7 @@ const CreateTask: FC = () => {
         </div>
 
         <div className={classNames(styles.skillsStage, styles.stage)}>
-          <h1>Specify skills</h1>
+          <h1>Specify skills (throught whitespaces)</h1>
           <input
             type="text"
             value={skillsInput}

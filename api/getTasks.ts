@@ -5,6 +5,23 @@ import taskContractInfo from "../ethereum/build/Task.json";
 import { ITask } from "../models/task";
 import { IEmployer } from "../models/user";
 
+const initializeTask = (task, address) => {
+  const taskObj: ITask = {
+    manager: task["0"],
+    title: task["1"],
+    files: task["2"],
+    description: task["3"],
+    sphere: task["4"],
+    worker: task["5"],
+    isCompleted: task["6"],
+    requestsKeys: task["7"],
+    address,
+    price: task["8"],
+    skills: task["9"]
+  };
+  return taskObj;
+}
+
 export default async (user: IDeveloper | IEmployer) => {
   const allTasks: any = [];
 
@@ -21,35 +38,11 @@ export default async (user: IDeveloper | IEmployer) => {
         
             if (user.type === "developers") {
               if (task["4"] === user.sphere && +task["5"] === 0) {
-                const taskObj: ITask = {
-                  manager: task["0"],
-                  title: task["1"],
-                  files: task["2"],
-                  description: task["3"],
-                  sphere: task["4"],
-                  worker: task["5"],
-                  isCompleted: task["6"],
-                  requestsKeys: task["7"],
-                  address,
-                  price: task["8"],
-                };
-                allTasks.push(taskObj);
+                allTasks.push(initializeTask(task, address));
               }
             } else {
               if (task["0"] === user.address) {
-                const taskObj: ITask = {
-                  manager: task["0"],
-                  title: task["1"],
-                  files: task["2"],
-                  description: task["3"],
-                  sphere: task["4"],
-                  worker: task["5"],
-                  isCompleted: task["6"],
-                  requestsKeys: task["7"],
-                  address,
-                  price: task["8"],
-                };
-                allTasks.push(taskObj);
+                allTasks.push(initializeTask(task, address));
               }
             }
             if (idx === arr.length - 1) {

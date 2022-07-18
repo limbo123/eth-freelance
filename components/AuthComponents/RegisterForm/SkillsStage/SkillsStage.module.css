@@ -1,0 +1,20 @@
+.skillsChoosing {
+    display: flex;
+    flex-direction: column;
+}
+
+.skillsInput {
+    width: 100%;
+    height: 30px;
+    margin-bottom: 30px;
+}
+
+.button {
+    width: 120px;
+    margin-left: auto;
+    background: var(--root-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+}

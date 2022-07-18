@@ -8,5 +8,6 @@ export interface ITask {
     isCompleted: boolean,
     requestsKeys: string[] ,
     address: string,
-    price: number
+    price: number,
+    skills: string[];
 }

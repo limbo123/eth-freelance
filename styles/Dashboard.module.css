@@ -94,6 +94,80 @@
     margin-bottom: 50px;
 }
 
+.tasksSection {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filters {
+    background: #f3e6f5;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 5px;
+    min-width: 300px;
+}
+
+/* .priceFiltering { */
+    /* display: flex; */
+/* } */
+
+.priceFiltering input {
+    max-width: 100px;
+    margin-right: 10px;
+    border: 1px solid #cbaad7;
+    border-radius: 5px;
+}
+
+.priceFiltering input::placeholder {
+    font-family: var(--root-font);
+}
+
+.userSkillsList {
+    display: grid;
+    padding: 0;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+
+.activeSkill {
+    list-style-type: none;
+    background: var(--root-color);
+    color: #fff;
+    padding: 5px;
+    border-radius: 20px;
+    font-size: 13px;
+    min-width: 50px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.inctiveSkill {
+    list-style-type: none;
+    color: var(--root-color);
+    background: #fff;
+    padding: 5px;
+    border-radius: 20px;
+    font-size: 13px;
+    min-width: 50px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.filters button {
+    background: var(--root-color);
+    color: #fff;
+    border: none;
+    width: 100px;
+    margin-top: 20px;
+    height: 25px;
+    border-radius: 15px;
+    font-family: var(--root-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 .taskCard {
     display: flex;
     flex-direction: column;
@@ -101,7 +175,8 @@
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 30px;
-    width: 100%;
+    width: 70%;
+    /* flex: auto; */
 }
 
 .TaskCardHeader {

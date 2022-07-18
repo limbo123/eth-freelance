@@ -9,7 +9,8 @@ export interface IDeveloper {
     profilePhoto: string | ArrayBuffer | Uint8Array | Blob,
     type: string,
     sphere: string,
-    createdAt?: number
+    createdAt?: number,
+    skills: string[];
 }
 
 export interface IEmployer {
@@ -26,3 +27,5 @@ export interface IEmployer {
     sphere: string,
     createdAt?: number
 }
+
+export type IUser = IEmployer | IDeveloper;

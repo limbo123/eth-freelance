@@ -1,7 +1,7 @@
 import React, { FC, useRef } from "react";
 import styles from "./MainStage.module.css";
 import formStyles from "../../../../styles/FormContent.module.css";
-import defaultLogo from "../../../../public/images/defaultAvatar.jpg";
+import defaultLogo from "../../../../assets/images/defaultAvatar.jpg";
 import { useAppSelector } from "../../../../hooks/useAppSelector";
 import useInputFocus from "../../../../hooks/useInputFocus";
 import { ClipLoader } from "react-spinners";

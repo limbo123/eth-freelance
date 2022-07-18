@@ -10,6 +10,7 @@ import MainStage from "./MainStage/MainStage";
 import axios from "axios";
 import SphereChoosing from "./SphereChoosing/SphereChoosing";
 import { useRouter } from "next/router";
+import SkillsStage from "./SkillsStage/SkillsStage";
 
 const RegisterForm: FC = () => {
   const [stage, setStage] = useState(0);
@@ -21,6 +22,7 @@ const RegisterForm: FC = () => {
   const [addressInput, setAddressInput] = useState("");
   const [currentPhoto, setCurrentPhoto] = useState<File>({} as File);
   const [countryInput, setCountryInput] = useState("");
+  const [skillsInput, setSkillsInput] = useState("");
   const [sphereInput, setSphereInput] = useState("Choose your sphere");
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -54,7 +56,6 @@ const RegisterForm: FC = () => {
   };
 
   const register = async (e: React.SyntheticEvent) => {
-    
     e.preventDefault();
 
     if (
@@ -76,10 +77,14 @@ const RegisterForm: FC = () => {
         sphere: sphereInput,
       };
       let userByType: IEmployer | IDeveloper;
-      if(accountType === "developers") {
-        userByType = {...userObj, completedTasks: []}
+      if (accountType === "developers") {
+        userByType = {
+          ...userObj,
+          completedTasks: [],
+          skills: skillsInput.split(" "),
+        };
       } else {
-        userByType = {...userObj, createdTasks: [], moneysSpent: 0}
+        userByType = { ...userObj, createdTasks: [], moneysSpent: 0 };
       }
       await dispatch(registerUser(userByType));
       router.push("/dashboard");
@@ -111,6 +116,14 @@ const RegisterForm: FC = () => {
       )}
 
       {stage === 2 && (
+        <SkillsStage
+          goToNextStep={goToNextStep}
+          setSkillsInput={setSkillsInput}
+          skillsInput={skillsInput}
+        />
+      )}
+
+      {stage === 3 && (
         <MainStage
           emailInput={emailInput}
           setEmailInput={setEmailInput}
