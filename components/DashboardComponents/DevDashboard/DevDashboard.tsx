@@ -66,7 +66,6 @@ const DevDashboard: FC<DevDashboardProps> = ({
             }
           } else {
           return task;
-            
           }
           
         }

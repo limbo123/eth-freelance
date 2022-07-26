@@ -62,6 +62,7 @@ const Navbar = () => {
   const logoutUser = () => {
     removeCookie("user");
     dispatch(logout());
+    router.push("/");
   };
   if (startLoading) {
     return (

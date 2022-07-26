@@ -38,7 +38,7 @@ const Wrapper = ({ children }) => {
           <Chats close={() => setIsChatsOpened(false)}/>
         </animated.div>
       )}
-      <button
+      {user.address && <button
         type="button"
         style={isChatsOpened ? {display: "none"} : {}}
         onClick={() => setIsChatsOpened(!isChatsOpened)}
@@ -46,6 +46,7 @@ const Wrapper = ({ children }) => {
       >
         <BsChatFill color="#fff" size={"1.5rem"} />
       </button>
+      }
       {children}
     </>
   );

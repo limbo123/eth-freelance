@@ -104,7 +104,9 @@
     height: fit-content;
     padding: 10px;
     border-radius: 5px;
-    min-width: 300px;
+    min-width: 350px;
+    margin-left: 20px;
+    margin-bottom: 30px;
 }
 
 /* .priceFiltering { */
@@ -175,7 +177,7 @@
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 30px;
-    width: 70%;
+    /* width: 70%; */
     /* flex: auto; */
 }
 
@@ -210,6 +212,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex: content;
 }
 
 .taskStatistics button {
