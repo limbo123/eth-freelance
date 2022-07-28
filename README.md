@@ -1,34 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Freelance
 
-## Getting Started
+**You can only use website with Metamask!**
 
-First, run the development server:
+## Authentification.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Here is the auth modal with two tabs: login and register;
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In login tab the password and email are just checking for existing in firebase.
+Register form is kinda more interesting one. After choosing whether you are developer or employer, the last stage will appear. The country is automatically setting from user ip. Email is verifying by smtp protocol.
+For verifying ethreum address I created another simple smart-contract (LINK!!!);
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## General description.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+All tasks and their proposals is stored in main smart-contract (LINK!!!)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Also employer can start chat with any author of proposal to his tasks.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To create task, employer must pay the task cost into Task contract, then it will automatically transfer to worker if he will finish the work
