@@ -2,12 +2,26 @@
   padding: 40px;
   width: 100%;
   height: 50vh;
-  background: linear-gradient(rgb(97, 10, 137), rgb(136, 30, 199));
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: #eabbff;
+  color: #fff;
+  background: linear-gradient(-45deg, #a552ee, #e13ce7, #ab23d5, #7b0adf);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .headingSection h1 {
@@ -18,12 +32,16 @@
 .authBtn {
   margin-top: 30px;
   background: none;
-  color: #ffffff;
-  border: 2px solid #ffffff;
+  color: #fff;
+  border: 2px solid #fff;
   width: 150px;
   height: 40px;
   font-family: var(--root-font);
   font-size: 16px;
+}
+
+.mainSection {
+  margin-top: 100px;
 }
 
 .container {
@@ -36,21 +54,30 @@
 }
 
 .card {
-  /* box-shadow: 0px 5px 10px 2px rgba(143, 147, 151, 0.2); */
+  box-shadow: 0px 5px 10px 2px rgba(180, 181, 183, 0.2);
   border-radius: 5px;
   width: 32%;
-  padding: 30px 0;
+  padding: 30px;
   outline: none;
   overflow: hidden;
   position: relative;
+  line-height: 30px;
+}
+
+.card p {
+  font-size: 18px;
 }
 
 .cardIcon {
+  right: -50px;
   position: absolute;
-  right: -40px;
   bottom: -50px;
   opacity: 0.2;
-  width: 200px; 
+  width: 200px;
   height: 200px;
+}
+
+.ethIcon {
+  right: -70px;
 }
 
