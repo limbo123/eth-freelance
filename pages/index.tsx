@@ -21,7 +21,7 @@ const Home: FC = () => {
           className={styles.authBtn}
           onClick={() => dispatch(openAuthModal())}
         >
-          Let's start now
+          Let&quots start now
         </button>
       </div>
       <div className={styles.mainSection}>
@@ -33,7 +33,7 @@ const Home: FC = () => {
                 <h3>1. Safe payment system</h3>
                 <FaEthereum className={styles.cardIcon}/>
                 <p>
-                  We provide the safest payment system because it's launched on
+                  We provide the safest payment system because it&quots launched on
                   Ethereum network
                 </p>
               </div>

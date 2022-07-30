@@ -140,6 +140,7 @@ const DevDashboard: FC<DevDashboardProps> = ({
                 {user.skills.map((skill) => {
                   return (
                     <li
+                    key={skill}
                       className={
                         skillsFilters.includes(skill)
                           ? styles.activeSkill
