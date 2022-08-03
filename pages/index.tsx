@@ -1,7 +1,6 @@
 import styles from "../styles/Home.module.css";
 import { FC } from "react";
 import { openAuthModal } from "../redux/auth/authSlice";
-import { useAppSelector } from "../hooks/useAppSelector";
 import { useDispatch } from "react-redux";
 import { GiTrophiesShelf } from "@react-icons/all-files/gi/GiTrophiesShelf";
 import { FaEthereum } from "@react-icons/all-files/fa/FaEthereum";

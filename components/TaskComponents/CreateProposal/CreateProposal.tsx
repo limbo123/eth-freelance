@@ -13,6 +13,7 @@ const CreateProposal: FC<CreateProposalProps> = ({ taskAddress }) => {
 
   const createRequest = async () => {
     createProposal(proposalDesc, user, taskAddress);
+    setProposalDesc("");
   };
   return (<>
   
