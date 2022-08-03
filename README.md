@@ -5,7 +5,7 @@ In development phase...
 **You can only use website with Metamask! If you using app without MetaMask, it will throw errors to console if you will execute some functions**
 
 
-If you haven't MetaMask extension you can login as (without access to create/manage tasks):
+If you haven't MetaMask extension you can login as (without access to create/manage tasks, but with full access to chats etc.):
 
 Developer account:
 email: limbaao7@gmail.com;
