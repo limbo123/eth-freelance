@@ -1,5 +1,7 @@
 # Freelance
 
+In development phase...
+
 **You can only use website with Metamask!**
 If you haven't MetaMask extension you can login as:
 
