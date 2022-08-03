@@ -1,6 +1,15 @@
 # Freelance
 
 **You can only use website with Metamask!**
+If you haven't MetaMask extension you can login as:
+
+Developer account:
+email: limbaao7@gmail.com;
+password: 1
+
+Employer account:
+email: olegovramets@gmail.com;
+password: 1
 
 ## Authentification.
 
