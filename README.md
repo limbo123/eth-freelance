@@ -14,7 +14,7 @@ password: 1
 Employer account:
 email: olegovramets@gmail.com;
 password: 1
-** 
+
 
 ## Authentification.
 
