@@ -2,8 +2,8 @@
 
 In development phase...
 
-**You can only use website with Metamask!**
-If you haven't MetaMask extension you can login as:
+**You can only use website with Metamask! If you using app without MetaMask, it will throw errors to console if you will execute some functions**
+If you haven't MetaMask extension you can login as (without access to create/manage tasks):
 
 Developer account:
 email: limbaao7@gmail.com;
@@ -12,6 +12,7 @@ password: 1
 Employer account:
 email: olegovramets@gmail.com;
 password: 1
+** 
 
 ## Authentification.
 
