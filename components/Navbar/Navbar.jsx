@@ -27,7 +27,7 @@ const Navbar = () => {
   // const { startLoading } = useAppSelector(state => state.authReducer);
 
   useEffect(() => {
-    
+
 
     (async () => {
       const user = cookies.user;
@@ -56,7 +56,7 @@ const Navbar = () => {
       console.log("user is not found");
       dispatch(setStartLoading(false));
     })();
- 
+
   }, []);
 
   const logoutUser = () => {
@@ -75,7 +75,7 @@ const Navbar = () => {
   return (
     <>
       <div className={styles.Navbar}>
-        <h3 className={styles.Logo} onClick={() => router.push("/")}>Go Freelance</h3>
+        <h3 className={styles.Logo} onClick={() => cookies.user ? router.push("/dashboard") : router.push("/")}>Go Freelance</h3>
         {isLoading ? (
           <div style={{ display: "flex", alignItems: "center" }}>
             ...

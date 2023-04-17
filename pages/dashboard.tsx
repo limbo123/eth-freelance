@@ -8,7 +8,6 @@ import getTasks from "../api/getTasks";
 import TaskModal from "../components/TaskComponents/TaskModal/TaskModal";
 import DevDashboard from "../components/DashboardComponents/DevDashboard/DevDashboard";
 import EmpDashboard from "../components/DashboardComponents/EmpDashboard/EmpDashboard";
-import { LinkPreview } from "@dhaiwat10/react-link-preview";
 
 const Dashboard: FC = () => {
   const { user } = useAppSelector((state) => state.authReducer);
@@ -69,8 +68,6 @@ const Dashboard: FC = () => {
           <TaskModal task={activeTask} closeTask={closeTask} />
         )}
       </animated.div>
-
-      <LinkPreview url={"https://www.npmjs.com/package/@dhaiwat10/react-link-preview"} />
 
       {user.type && user.type === "developers" && (
         <DevDashboard
